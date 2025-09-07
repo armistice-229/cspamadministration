@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>CSPAM | Certificat de scolarité</title>
+    <meta name="description" content="Génération de certificats de scolarité - CSPAM" />
+    <meta name="author" content="CSPAM" />
+
+    <!-- Polices -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Styles (dashboard global) -->
+    <link rel="stylesheet" href="../styles/08_certificat/certificat.css" />
+
+    <!-- CDN FEDAPAY -->
+     <script src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../assets/icon/favicon.ico" type="image/x-icon" />
+</head>
+
+<body>
+    <!-- =========================
+            HEADER
+        ========================= -->
+    <header class="dashboard-header" role="banner">
+        <div class="container">
+            <div class="header-inner">
+                <!-- Logo -->
+                <div class="logo" aria-label="CSPAM - Complexe Scolaire Privé Arche du Millénium">
+                    <a href="../index.html" class="logo-link" aria-label="Retour à l'accueil">
+                        <span class="logo-text">CSPAM</span>
+                    </a>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="dashboard-nav" role="navigation" aria-label="Navigation principale">
+                    <ul class="nav-list" id="site-menu" role="list">
+                        <li class="nav-item">
+                            <a href="./dashbord.html">Tableau de bord</a>
+                        </li>
+
+                        <!-- Menu Caisse -->
+                        <li class="nav-item has-dropdown">
+                            <button id="dropdown-caisse" class="dropdown-trigger" aria-expanded="false"
+                                aria-controls="menu-caisse" aria-haspopup="true">
+                                <span>Caisse</span>
+                                <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+                            </button>
+
+                            <ul id="menu-caisse" class="dropdown" role="list">
+                                <li><a href="./caisse.html">Opération de Caisse</a></li>
+                                <li><a href="./releve.html">Relevé de compte</a></li>
+                                <li><a href="./rapport.html">Rapport financier</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Menu Document -->
+                        <li class="nav-item has-dropdown">
+                            <button id="dropdown-document" class="dropdown-trigger" aria-expanded="false"
+                                aria-controls="menu-document" aria-haspopup="true">
+                                <span>Document</span>
+                                <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+                            </button>
+
+                            <ul id="menu-document" class="dropdown" role="list">
+                                <li><a href="#" aria-current="page">Certificat de scolarité</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Icône Déconnexion -->
+                <div class="logout">
+                    <a id="logoutBtn" class="logout-btn" aria-label="Déconnexion">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </a>
+                </div>
+
+                <!-- Bouton menu mobile -->
+                <button class="nav-toggle" aria-controls="site-menu" aria-expanded="false">
+                    <span class="visually-hidden">Ouvrir le menu</span>
+                    <img src="../assets/icon/menu.png" alt="Menu" class="icon-menu">
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- =========================
+            CONTENU PRINCIPAL
+        ========================== -->
+    <main id="contenu" class="dashboard-main" role="main">
+        <div class="container certif-wrap">
+            <h1 class="page-title">Faire un certificat de scolarité</h1>
+
+            <!-- Formulaire -->
+            <form id="certif-form" class="certif-form" aria-label="Formulaire de génération de certificat">
+                <div class="form-grid" role="region" aria-labelledby="form-heading">
+                    <!-- Carte gauche -->
+                    <section class="form-card" aria-labelledby="form-left-title">
+                        <h3 id="form-left-title">Informations générales</h3>
+
+                        <div class="input-inline">
+                            <div class="form-row">
+                                <label for="annee">Année scolaire</label>
+                                <select name="annee" id="annee">
+                                    <option value="" disabled selected>Sélectionnez une année</option>
+                                    <option value="2024-2025">2024-2025</option>
+                                </select>
+                            </div>
+
+                            <div class="form-row">
+                                <label for="classe">Classe</label>
+                                <select id="classe" name="classe" required>
+                                    <option value="" disabled selected>Choisissez une classe</option>
+                                    <option value="Maternelle">Maternelle</option>
+                                    <option value="CI">CI</option>
+                                    <option value="CP">CP</option>
+                                    <option value="CE1">CE1</option>
+                                    <option value="CE2">CE2</option>
+                                    <option value="CM1">CM1</option>
+                                    <option value="CM2">CM2</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row autocomplete">
+                            <label for="nom">Nom &amp; Prénoms</label>
+                            <input type="text" id="nom" name="nom" placeholder="Ex: Kouassi Didier" required />
+                            <!-- Suggestions -->
+                            <ul id="suggestions" class="suggestions"></ul>
+                        </div>
+
+                        <div class="form-inline">
+                            <div class="form-row">
+                                <label for="matricule">Matricule</label>
+                                <input type="number" id="matricule" name="matricule" placeholder="Ex: CSPAM-2025-001"
+                                    required />
+                            </div>
+                            <div class="form-row">
+                                <label for="date-naissance">Date de naissance</label>
+                                <input type="text" id="date-naissance" name="date_naissance" required />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <label for="lieu-naissance">Lieu de naissance</label>
+                            <input type="text" id="lieu-naissance" name="lieu_naissance"
+                                placeholder="Ex: Abomey-Calavi" />
+                        </div>
+
+                        <div class="form-row">
+                            <label for="date-inscription">Date de 1ère inscription</label>
+                            <input type="date" id="date-inscription" name="date_inscription" max="" />
+                        </div>
+                    </section>
+
+                    <!-- Carte droite -->
+                    <section class="form-card" aria-labelledby="form-right-title">
+                        <h3 id="form-right-title">Scolarité & appréciations</h3>
+
+                        <fieldset>
+                            <legend>Appréciations</legend>
+
+                            <div class="form-row">
+                                <label for="assiduite">Assiduité</label>
+                                <input type="text" id="assiduite" placeholder="Passable">
+                            </div>
+
+                            <div class="form-row">
+                                <label for="conduite">Conduite</label>
+                                <input type="text" id="conduite" placeholder="Bonne">
+                            </div>
+
+                            <div class="form-row">
+                                <label for="travail">Travail</label>
+                                <input type="text" id="travail" placeholder="Suffisant">
+                            </div>
+                        </fieldset>
+
+                        <div class="form-row">
+                            <label for="observation">Observation</label>
+                            <textarea id="observation" name="observation"
+                                placeholder="Passe en Classe supérieur"></textarea>
+                        </div>
+
+                        <div class="form-actions" aria-hidden="false">
+                            <button type="submit" class="btn" id="generate-btn"><i class="fa-solid fa-file-export"
+                                    aria-hidden="true"></i> Générer le certificat</button>
+                            <button type="button" class="btn ghost" id="preview-btn"><i class="fa-solid fa-eye"
+                                    aria-hidden="true"></i> Aperçu</button>
+                        </div>
+                    </section>
+                </div>
+            </form>
+
+            <!-- Historique -->
+            <section class="history-card" aria-labelledby="history-title">
+                <h3 id="history-title" style="margin:0;font-family:Poppins, sans-serif;color:var(--muted);">Historique
+                    des certificats générés</h3>
+
+                <div style="overflow:auto;margin-top:.6rem;">
+                    <table class="history-table" id="history-table" role="table"
+                        aria-label="Historique des certificats">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Nom &amp; Prénom</th>
+                                <th scope="col">Classe</th>
+                                <th scope="col">Numéro de certificat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Lignes ajoutées dynamiquement -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+    <div id="loader" class="loader-overlay hidden">
+		<div class="spinner"></div>
+	</div>
+
+    <!-- Modal de confirmation Déconnexion -->
+    <div id="logoutModal" class="modal hidden">
+    <div class="modal-content">
+        <h3>Voulez-vous vraiment vous déconnecter ?</h3>
+        <p>Vous serez redirigé vers la page de connexion.</p>
+        <div class="modal-actions">
+        <button id="cancelLogout" class="btn-cancel">Annuler</button>
+        <button id="confirmLogout" class="btn-confirm">Se déconnecter</button>
+        </div>
+    </div>
+    </div>
+    <!-- =========================
+            FOOTER (identique au Dashboard)
+        ========================== -->
+    <footer class="dashboard-footer" role="contentinfo">
+        <div class="container">
+            <p>© 2025 Tous droits réservés | Développé par l'équipe <strong>L&amp;D DYNAMICS</strong></p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../scripts/burger-dashboard.js"></script>
+    <script src="../scripts/futils.js"></script>
+    <script src="../scripts/certificat.js"></script>
+</body>
+
+</html>

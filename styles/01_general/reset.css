@@ -1,0 +1,49 @@
+/* ===========================
+   RESET.CSS
+=========================== */
+
+/* Supprimer les marges/paddings par défaut */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Héritage des polices */
+html {
+  font-size: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  line-height: 1.5;
+  font-family: 'Poppins', sans-serif;
+  background-color: #fff;
+  color: #333;
+}
+
+/* Supprimer la décoration des liens */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Supprimer les styles des listes */
+ul, ol {
+  list-style: none;
+}
+
+/* Supprimer les bordures par défaut des boutons et inputs */
+button, input, textarea, select {
+  border: none;
+  outline: none;
+  font-family: inherit;
+  background: none;
+}
+
+/* Images réactives */
+img, video {
+  max-width: 100%;
+  height: auto;
+}

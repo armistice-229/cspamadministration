@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>CSPAM | Rapport Financier</title>
+        <meta name="description" content="Téléchargement des rapports financiers et documents administratifs - CSPAM." />
+        <meta name="author" content="CSPAM" />
+
+        <!-- Polices -->
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
+
+        <!-- Icônes -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+        <!-- Styles -->
+        <link rel="stylesheet" href="../styles/07_rapport/rapport.css" />
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="../assets/icon/favicon.ico" type="image/x-icon" />
+    </head>
+    <body>
+        <!-- =========================
+            HEADER
+        ========================= -->
+        <header class="dashboard-header" role="banner">
+            <div class="container">
+                <div class="header-inner">
+                    <!-- Logo -->
+                    <div class="logo" aria-label="CSPAM - Complexe Scolaire Privé Arche du Millénium">
+                        <a href="../index.html" class="logo-link" aria-label="Retour à l'accueil">
+                            <span class="logo-text">CSPAM</span>
+                        </a>
+                    </div>
+            
+                    <!-- Navigation -->
+                    <nav class="dashboard-nav" role="navigation" aria-label="Navigation principale">
+                        <ul class="nav-list" id="site-menu" role="list">
+                            <li class="nav-item">
+                                <a href="./dashbord.html">Tableau de bord</a>
+                            </li>
+                
+                            <!-- Menu Caisse -->
+                            <li class="nav-item has-dropdown">
+                                <button
+                                    id="dropdown-caisse"
+                                    class="dropdown-trigger"
+                                    aria-expanded="false"
+                                    aria-controls="menu-caisse"
+                                    aria-haspopup="true">
+                                    <span>Caisse</span>
+                                    <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+                                </button>
+                    
+                                <ul id="menu-caisse" class="dropdown" role="list">
+                                    <li><a href="./caisse.html">Opération de Caisse</a></li>
+                                    <li><a href="./releve.html">Relevé de compte</a></li>
+                                    <li><a href="#" aria-current="page">Rapport financier</a></li>
+                                </ul>
+                            </li>
+                
+                            <!-- Menu Document -->
+                            <li class="nav-item has-dropdown">
+                                <button
+                                    id="dropdown-document"
+                                    class="dropdown-trigger"
+                                    aria-expanded="false"
+                                    aria-controls="menu-document"
+                                    aria-haspopup="true">
+                                    <span>Document</span>
+                                    <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+                                </button>
+                    
+                                <ul id="menu-document" class="dropdown" role="list">
+                                    <li><a href="./certificat.html">Certificat de scolarité</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <!-- Icône Déconnexion -->
+                    <div class="logout">
+                        <a id="logoutBtn" class="logout-btn" aria-label="Déconnexion">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </a>
+                    </div>
+            
+                    <!-- Bouton menu mobile -->
+                    <button class="nav-toggle" aria-controls="site-menu" aria-expanded="false">
+                        <span class="visually-hidden">Ouvrir le menu</span>
+                        <img src="../assets/icon/menu.png" alt="Menu" class="icon-menu">
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- =========================
+        CONTENU PRINCIPAL
+        ========================== -->
+        <main id="contenu" class="dashboard-main" role="main">
+            <div class="container">
+                <!-- Titre principal -->
+                <h1 class="page-title">Télécharger vos rapports</h1>
+
+                <!-- Grille des cartes -->
+                <section class="reports-grid" aria-labelledby="rapports-titre">
+                    <h2 id="rapports-titre" class="visually-hidden">Rapports disponibles</h2>
+
+                    <!-- Carte 1 : Caisse -->
+                    <article class="report-card" aria-labelledby="caisse-titre">
+                        <header class="report-card-header">
+                            <h3 id="caisse-titre" class="report-card-title">Caisse</h3>
+                        </header>
+                        <div class="report-card-body">
+                            <button class="btn-download" id="btnRapportJournalier">
+                                <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Rapport journalier
+                            </button>
+                            <button class="btn-download">
+                                <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Rapport mensuel
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Carte 2 : Administratif -->
+                    <article class="report-card" aria-labelledby="admin-titre">
+                        <header class="report-card-header">
+                            <h3 id="admin-titre" class="report-card-title">Administratifs</h3>
+                        </header>
+                        <div class="report-card-body">
+                            <button class="btn-download">
+                                <i class="fa-solid fa-list" aria-hidden="true"></i> Liste alphabétique
+                            </button>
+                        </div>
+                    </article>
+                </section>
+            </div>
+        </main>
+
+        <!-- Modal de confirmation Déconnexion -->
+        <div id="logoutModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Voulez-vous vraiment vous déconnecter ?</h3>
+            <p>Vous serez redirigé vers la page de connexion.</p>
+            <div class="modal-actions">
+            <button id="cancelLogout" class="btn-cancel">Annuler</button>
+            <button id="confirmLogout" class="btn-confirm">Se déconnecter</button>
+            </div>
+        </div>
+        </div>
+
+
+        <!-- Modal Rapport Journalier -->
+        <div id="journalierModal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Sélectionner la date du rapport</h3>
+                <p>Choisissez une journée pour générer le rapport de caisse.</p>
+
+                <input type="date" id="journalierDate" class="input-date" max="" />
+
+                <div class="modal-actions">
+                <button id="cancelJournalier" class="btn-cancel">Annuler</button>
+                <button id="confirmJournalier" class="btn-confirm">Valider</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- =========================
+            FOOTER
+        ========================== -->
+        <footer class="dashboard-footer" role="contentinfo">
+            <div class="container">
+                <p>© 2025 Tous droits réservés | Développé par l'équipe <strong>L&amp;D DYNAMICS</strong></p>
+            </div>
+        </footer>
+        
+        <!-- Scripts -->
+        <script src="../scripts/futils.js"></script>
+        <script src="../scripts/burger-dashboard.js"></script>
+        <script src="../scripts/rapport.js"></script>
+    </body>
+</html>

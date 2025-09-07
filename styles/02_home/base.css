@@ -1,0 +1,71 @@
+/* ===========================
+   BASE.CSS
+=========================== */
+
+:root {
+    --primary: #004aad;      /* Bleu profond institutionnel */
+    --light: #ffffff;        /* Blanc pur */
+    --accent: #d4af37;       /* Or doré élégant */
+    --text-dark: #1c1c1c;    /* Noir doux */
+    --text-light: #f5f5f5;   /* Gris clair lisible */
+    --radius: 10px;          /* Rayons arrondis élégants */
+    --transition: all 0.35s ease;
+}
+
+body {
+    font-size: 1rem;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+}
+
+p {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    font-weight: 400;
+    color: #555;
+}
+
+a {
+    transition: all 0.3s ease;
+}
+
+.btn-connexion,
+.btn-cta {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-connexion {
+    background: var(--primary);
+    color: var(--text-light);
+}
+
+.btn-connexion:hover {
+    background: var(--accent);
+    color: var(--text-dark);
+}
+
+.btn-cta {
+    background: var(--accent);
+    color: var(--text-dark);
+}
+
+.btn-cta:hover {
+    background: var(--primary);
+    color: var(--text-light);
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+p, span, li, a, input, button {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+

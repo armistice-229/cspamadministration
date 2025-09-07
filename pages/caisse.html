@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>CSPAM | Opérations de Caisse</title>
+		<meta name="description" content="Gestion des opérations de caisse du Complexe Scolaire Privé Arche du Millénium (CSPAM)." />
+		<meta name="author" content="CSPAM" />
+
+		<!-- Polices -->
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
+
+		<!-- Icônes -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+		<!-- Styles -->
+		<link rel="stylesheet" href="../styles/05_caisse/caisse.css" />
+
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="../assets/icon/favicon.ico" type="image/x-icon" />
+	</head>
+	<body>
+        <!-- =========================
+            HEADER
+        ========================= -->
+        <header class="dashboard-header" role="banner">
+            <div class="container">
+                <div class="header-inner">
+                    <!-- Logo -->
+                    <div class="logo" aria-label="CSPAM - Complexe Scolaire Privé Arche du Millénium">
+                        <a href="../index.html" class="logo-link" aria-label="Retour à l'accueil">
+                            <span class="logo-text">CSPAM</span>
+                        </a>
+                    </div>
+            
+                    <!-- Navigation -->
+                    <nav class="dashboard-nav" role="navigation" aria-label="Navigation principale">
+                        <ul class="nav-list" id="site-menu" role="list">
+                            <li class="nav-item">
+                                <a href="./dashbord.html">Tableau de bord</a>
+                            </li>
+                
+                            <!-- Menu Caisse -->
+                            <li class="nav-item has-dropdown">
+                                <button
+                                    id="dropdown-caisse"
+                                    class="dropdown-trigger"
+                                    aria-expanded="false"
+                                    aria-controls="menu-caisse"
+                                    aria-haspopup="true">
+                                    <span>Caisse</span>
+                                    <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+                                </button>
+                    
+                                <ul id="menu-caisse" class="dropdown" role="list">
+                                    <li><a href="#" aria-current="page">Opération de Caisse</a></li>
+                                    <li><a href="./releve.html">Relevé de compte</a></li>
+                                    <li><a href="./rapport.html">Rapport financier</a></li>
+                                </ul>
+                            </li>
+                
+                            <!-- Menu Document -->
+                            <li class="nav-item has-dropdown">
+                                <button
+                                    id="dropdown-document"
+                                    class="dropdown-trigger"
+                                    aria-expanded="false"
+                                    aria-controls="menu-document"
+                                    aria-haspopup="true">
+                                    <span>Document</span>
+                                    <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+                                </button>
+                    
+                                <ul id="menu-document" class="dropdown" role="list">
+                                    <li><a href="./certificat.html">Certificat de scolarité</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+
+					<!-- Icône Déconnexion -->
+					<div class="logout">
+						<a  class="logout-btn" id="logoutBtn" aria-label="Déconnexion">
+							<i class="fa-solid fa-right-from-bracket"></i>
+						</a>
+					</div>
+            
+                    <!-- Bouton menu mobile -->
+                    <button class="nav-toggle" aria-controls="site-menu" aria-expanded="false">
+                        <span class="visually-hidden">Ouvrir le menu</span>
+                        <img src="../assets/icon/menu.png" alt="Menu" class="icon-menu">
+                    </button>
+                </div>
+            </div>
+        </header>
+
+		<!-- =========================
+			CONTENU PRINCIPAL
+		========================== -->
+		<main id="contenu" class="dashboard-main" role="main">
+			<div class="container">
+			
+				<!-- ===== Titre et infos caisse ===== -->
+				<section class="caisse-info" aria-labelledby="caisse-titre">
+					<h1 id="caisse-titre" class="visually-hidden">Opérations de Caisse</h1>
+					<div class="caisse-header">
+						<p class="caisse-agent"><strong>Chargé de Caisse : </strong><span id="agent-name"></p>
+						<p class="caisse-date" aria-label="Date du jour">Date : <input type="date" id="operation-date" /></p>
+					</div>
+				</section>
+
+				<!-- ===== Grille des formulaires ===== -->
+				<section class="caisse-forms" aria-labelledby="forms-titre">
+					<h2 id="forms-titre" class="section-title">Saisie des opérations</h2>
+					<div class="grid grid-2">
+						
+						<!-- Entrée de Caisse -->
+						<article class="card form-card" aria-labelledby="entree-titre">
+								<header class="card-header">
+									<h3 id="entree-titre" class="card-title">Entrée de Caisse</h3>
+								</header>
+								<div class="card-body">
+								<form action="#" method="post" class="form" aria-label="Formulaire Entrée de Caisse">
+									<div class="form-group autocomplete">
+										<label for="eleve">Nom de l'élève</label>
+										<input type="text" id="eleve" name="eleve" required placeholder="Ex: AGOSSOU Paulin" autocomplete="off" />
+										<!-- Liste des suggestions -->
+										<ul id="eleve-suggestions" class="suggestions"></ul>
+									</div>
+
+									<div class="together-form">
+										<div class="form-group">
+											<label for="montant-entree">Montant (FCFA)</label>
+											<input type="number" id="montant-entree" name="montant-entree" placeholder="Ex: 20000" required />
+										</div>
+
+										<div class="form-group">
+											<label for="recu">N° Reçu</label>
+											<input type="text" id="recu" name="recu" placeholder="Ex: CM1-001" required />
+										</div>
+									</div>
+
+									<div class="form-group autocomplete">
+										<label for="motif-entree">Motif</label>
+										<textarea id="motif-entree" name="motif-entree" placeholder="Ex: Frais d'inscription" rows="2"></textarea>
+										<!-- Suggestions -->
+										<ul id="motif-suggestions" class="suggestions"></ul>
+									</div>
+
+
+									<button type="submit" class="btn-primary">Enregistrer</button>
+								</form>
+							</div>
+						</article>
+
+						<!-- Sortie de Caisse -->
+						<article class="card form-card" aria-labelledby="sortie-titre">
+							<header class="card-header">
+								<h3 id="sortie-titre" class="card-title">Sortie de Caisse</h3>
+							</header>
+							<div class="card-body">
+								<form id="fom-sortie" action="#" method="post" class="form" aria-label="Formulaire Sortie de Caisse">
+									<div class="form-group">
+										<label for="categorie">Catégorie</label>
+										<select id="categorie" name="categorie" required>
+											<option value="" disabled selected>Sélectionner une catégorie</option>
+											<option value="Fourniture">Fourniture</option>
+											<option value="Salaire">Salaire</option>
+											<option value="Transport">Transport</option>
+											<option value="Maintenance">Maintenance</option>
+											<option value="Autres">Autres</option>
+										</select>
+									</div>
+
+									<div class="form-group">
+										<label for="montant-sortie">Montant (FCFA)</label>
+										<input type="number" id="montant-sortie" name="montant-sortie"  placeholder="Ex: 200000" required />
+									</div>
+
+									<div class="form-group autocomplete">
+										<label for="motif-sortie">Motif</label>
+										<textarea id="motif-sortie" name="motif-sortie" placeholder="Ex: Salaire du mois de Septembre" rows="2"></textarea>
+										<!-- Suggestions -->
+										<ul id="motif-sortie-suggestions" class="suggestions"></ul>
+
+									</div>
+									
+									<button type="submit" class="btn-primary" id="btn-sortie">Enregistrer</button>
+								</form>
+							</div>
+						</article>
+					</div>
+				</section>
+			</div>
+		</main>
+
+	<!-- Modal de confirmation Déconnexion -->
+		<div id="logoutModal" class="modal hidden">
+		<div class="modal-content">
+			<h3>Voulez-vous vraiment vous déconnecter ?</h3>
+			<p>Vous serez redirigé vers la page de connexion.</p>
+			<div class="modal-actions">
+			<button id="cancelLogout" class="btn-cancel">Annuler</button>
+			<button id="confirmLogout" class="btn-confirm">Se déconnecter</button>
+			</div>
+		</div>
+		</div>
+		<!-- =========================
+			FOOTER
+		========================== -->
+		<footer class="dashboard-footer" role="contentinfo">
+			<div class="container">
+			<p>© 2025 Tous droits réservés | Développé par l'équipe <strong>L&amp;D DYNAMICS</strong></p>
+			</div>
+		</footer>
+		<script src="../scripts/futils.js"></script>
+		<script src="../scripts/burger-dashboard.js"></script>
+		<script src="../scripts/caisse.js"></script>
+	</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <!-- =========================
+            META & CONFIGURATION
+        ========================== -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>CSPAM | Administration</title>
+        <meta name="description" content="Espace Administration du Complexe Scolaire Privé Arche du Millénium. Gérez la caisse et les opérations en toute simplicité.">
+        <meta name="keywords" content="CSPAM, Administration, Gestion scolaire, Espace admin, Caisse, Complexe Scolaire Privé Arche du Millénium">
+        <meta name="author" content="CSPAM">
+
+        <!-- Feuille de style principale -->
+        <link rel="stylesheet" href="./styles/02_home/home-main.css">
+
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+        <!-- Icônes Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="./assets/icon/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        
+        <!-- =========================
+            SECTION HERO (Accueil)
+        ========================== -->
+        <section class="hero" role="banner" aria-label="Section d'accueil - Administration CSPAM">
+
+            <!-- ===== HEADER ===== -->
+            <header class="header" role="navigation" aria-label="Navigation principale">
+                
+                <!-- Logo CSPAM -->
+                <div class="logo">
+                    <h1 aria-label="CSPAM - Complexe Scolaire Privé Arche du Millénium">CSPAM</h1>
+                </div>
+            
+                <!-- Zone centrale avec symbole -->
+                <div class="header-center">
+                    <img src="./assets/images/laurier.png" alt="Symbole du Complexe CSPAM - Laurier d'excellence">
+                </div>
+            
+                <!-- Navigation Desktop -->
+                <nav class="nav-desktop" aria-label="Menu principal (version bureau)">
+                    <a href="./pages/connexion.html" class="btn-connexion" aria-label="Se connecter à l'espace administrateur">Connexion</a>
+                </nav>
+            
+                <!-- Bouton Menu Burger (Mobile) -->
+                <button class="menu-burger" aria-label="Ouvrir le menu mobile" aria-controls="menu-mobile" aria-expanded="false">
+                    <img src="./assets/icon/menu.png" alt="Icône menu">
+                </button>
+            
+                <!-- Navigation Mobile (cachée par défaut) -->
+                <nav class="nav-mobile" id="menu-mobile" aria-label="Menu principal (version mobile)">
+                    <a href="./pages/connexion.html" class="btn-connexion" aria-label="Se connecter à l'espace administrateur">Connexion</a>
+                </nav>
+
+            </header>        
+
+            <!-- ===== CONTENU HERO ===== -->
+            <div class="hero-content">
+                <h2>Bienvenue sur l'espace Administration</h2>
+                <p>Gérez facilement la caisse et les opérations du Complexe Scolaire Privé Arche du Millénium.</p>
+                <a href="./pages/connexion.html" class="btn-cta" aria-label="Accéder à la page de connexion administrateur">Se connecter</a>
+            </div>
+
+        </section>
+
+        <!-- =========================
+            SCRIPTS JS
+        ========================== -->
+        <script src="./scripts/burger_home.js"></script>
+    </body>
+</html>

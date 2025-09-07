@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>CSPAM | Relevé de Compte</title>
+	<meta name="description"
+		content="Relevé de compte - Administration du Complexe Scolaire Privé Arche du Millénium (CSPAM)." />
+	<meta name="author" content="CSPAM" />
+
+	<!-- Polices -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap"
+		rel="stylesheet" />
+
+	<!-- Icônes -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+	<!-- Styles -->
+	<link rel="stylesheet" href="../styles/06_releve/releve.css" />
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../assets/icon/favicon.ico" type="image/x-icon" />
+</head>
+
+<body>
+	<!-- =========================
+            HEADER
+        ========================= -->
+	<header class="dashboard-header" role="banner">
+		<div class="container">
+			<div class="header-inner">
+				<!-- Logo -->
+				<div class="logo" aria-label="CSPAM - Complexe Scolaire Privé Arche du Millénium">
+					<a href="../index.html" class="logo-link" aria-label="Retour à l'accueil">
+						<span class="logo-text">CSPAM</span>
+					</a>
+				</div>
+
+				<!-- Navigation -->
+				<nav class="dashboard-nav" role="navigation" aria-label="Navigation principale">
+					<ul class="nav-list" id="site-menu" role="list">
+						<li class="nav-item">
+							<a href="./dashbord.html">Tableau de bord</a>
+						</li>
+
+						<!-- Menu Caisse -->
+						<li class="nav-item has-dropdown">
+							<button id="dropdown-caisse" class="dropdown-trigger" aria-expanded="false"
+								aria-controls="menu-caisse" aria-haspopup="true">
+								<span>Caisse</span>
+								<i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+							</button>
+
+							<ul id="menu-caisse" class="dropdown" role="list">
+								<li><a href="./caisse.html">Opération de Caisse</a></li>
+								<li><a href="#" aria-current="page">Relevé de compte</a></li>
+								<li><a href="./rapport.html">Rapport financier</a></li>
+							</ul>
+						</li>
+
+						<!-- Menu Document -->
+						<li class="nav-item has-dropdown">
+							<button id="dropdown-document" class="dropdown-trigger" aria-expanded="false"
+								aria-controls="menu-document" aria-haspopup="true">
+								<span>Document</span>
+								<i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+							</button>
+
+							<ul id="menu-document" class="dropdown" role="list">
+								<li><a href="./certificat.html">Certificat de scolarité</a></li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+
+				<!-- Icône Déconnexion -->
+				<div class="logout">
+					<a id="logoutBtn" class="logout-btn" aria-label="Déconnexion">
+						<i class="fa-solid fa-right-from-bracket"></i>
+					</a>
+				</div>
+
+				<!-- Bouton menu mobile -->
+				<button class="nav-toggle" aria-controls="site-menu" aria-expanded="false">
+					<span class="visually-hidden">Ouvrir le menu</span>
+					<img src="../assets/icon/menu.png" alt="Menu" class="icon-menu">
+				</button>
+			</div>
+		</div>
+	</header>
+
+	<!-- =========================
+			CONTENU PRINCIPAL
+		========================== -->
+	<main id="contenu" class="dashboard-main" role="main">
+		<div class="container">
+
+			<!-- ===== Formulaire Infos Élève ===== -->
+			<section class="cards-row" aria-labelledby="form-eleve-titre">
+				<article class="card form-card" aria-labelledby="form-eleve-titre">
+					<header class="card-header">
+						<h2 id="form-eleve-titre" class="card-title">Informations de l'élève</h2>
+					</header>
+					<div class="card-body">
+						<form class="student-form">
+							<!-- Select Classe -->
+							<div class="form-group">
+								<label for="classe">Classe</label>
+								<select id="classe" name="classe" required>
+									<option value="" disabled selected>Choisissez une classe</option>
+									<option value="Maternelle">Maternelle</option>
+									<option value="CI">CI</option>
+									<option value="CP">CP</option>
+									<option value="CE1">CE1</option>
+									<option value="CE2">CE2</option>
+									<option value="CM1">CM1</option>
+									<option value="CM2">CM2</option>
+								</select>
+							</div>
+
+							<!-- Input Nom -->
+							<div class="form-group">
+								<label for="nom">Nom & Prénom</label>
+								<select name="nomEleve" id="nomEleve" required>
+									<option value="" disabled selected>Choisissez un élève</option>
+									<!-- à remplir dynamiquement depuis le backend en fonction de la classe-->
+								</select>
+							</div>
+						</form>
+					</div>
+				</article>
+			</section>
+
+			<!-- Une fois l'élève sélectionné, ses informations se charges dans les sections suivantes-->
+			<!-- ===== Titre Élève ===== -->
+			<section class="student-title">
+				<h1>Chily GONTRAN, CM1</h1>
+			</section>
+
+			<!-- ===== Grille 2 Cartes ===== -->
+			<section class="cards-row large" aria-labelledby="paiements-titre">
+				<h2 id="paiements-titre" class="section-title">Relevé de Compte</h2>
+				<div class="grid grid-2">
+					<!-- Historique Paiement -->
+					<article class="card large-card" aria-labelledby="historique-titre">
+						<header class="card-header">
+							<h3 id="historique-titre" class="card-title">Historique de paiement</h3>
+						</header>
+						<div class="card-body">
+							<div id="paiementChart" class="chart-placeholder"></div>
+						</div>
+					</article>
+
+					<!-- État Paiement -->
+					<article class="card large-card" aria-labelledby="etat-titre">
+						<header class="card-header">
+							<h3 id="etat-titre" class="card-title">État de paiement</h3>
+						</header>
+						<div class="card-body">
+							<div id="situationChart" class="chart-placeholder"></div>
+						</div>
+					</article>
+				</div>
+			</section>
+		</div>
+	</main>
+	<div id="loader" class="loader-overlay hidden">
+		<div class="spinner"></div>
+	</div>
+
+	<!-- Modal de confirmation Déconnexion -->
+    <div id="logoutModal" class="modal hidden">
+    <div class="modal-content">
+        <h3>Voulez-vous vraiment vous déconnecter ?</h3>
+        <p>Vous serez redirigé vers la page de connexion.</p>
+        <div class="modal-actions">
+        <button id="cancelLogout" class="btn-cancel">Annuler</button>
+        <button id="confirmLogout" class="btn-confirm">Se déconnecter</button>
+        </div>
+    </div>
+    </div>
+
+
+	<!-- =========================
+			FOOTER
+		========================== -->
+	<footer class="dashboard-footer" role="contentinfo">
+		<div class="container">
+			<p>© 2025 Tous droits réservés | Développé par l'équipe <strong>L&amp;D DYNAMICS</strong></p>
+		</div>
+	</footer>
+	<!-- ECharts CDN -->
+	<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+	<script src="../scripts/burger-dashboard.js"></script>
+	<script src="../scripts/futils.js"></script>
+	<script src="../scripts/releve.js"></script>
+</body>
+
+</html>

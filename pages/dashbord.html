@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>CSPAM | Dashboard</title>
+    <meta name="description"
+        content="Tableau de bord - Administration du Complexe Scolaire Privé Arche du Millénium (CSPAM)." />
+    <meta name="author" content="CSPAM" />
+
+    <!-- Polices -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles/04_dashbord/dashboard.css" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../assets/icon/favicon.ico" type="image/x-icon" />
+</head>
+
+<body>
+    <!-- =========================
+            HEADER
+        ========================= -->
+    <header class="dashboard-header" role="banner">
+        <div class="container">
+            <div class="header-inner">
+                <!-- Logo -->
+                <div class="logo" aria-label="CSPAM - Complexe Scolaire Privé Arche du Millénium">
+                    <a href="../index.html" class="logo-link" aria-label="Retour à l'accueil">
+                        <span class="logo-text">CSPAM</span>
+                    </a>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="dashboard-nav" role="navigation" aria-label="Navigation principale">
+                    <ul class="nav-list" id="site-menu" role="list">
+                        <li class="nav-item">
+                            <a href="dashbord.html" aria-current="page">Tableau de bord</a>
+                        </li>
+
+                        <!-- Menu Caisse -->
+                        <li class="nav-item has-dropdown">
+                            <button id="dropdown-caisse" class="dropdown-trigger" aria-expanded="false"
+                                aria-controls="menu-caisse" aria-haspopup="true">
+                                <span>Caisse</span>
+                                <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+                            </button>
+
+                            <ul id="menu-caisse" class="dropdown" role="list">
+                                <li><a href="./caisse.html">Opération de Caisse</a></li>
+                                <li><a href="./releve.html">Relevé de compte</a></li>
+                                <li><a href="./rapport.html">Rapport financier</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Menu Document -->
+                        <li class="nav-item has-dropdown">
+                            <button id="dropdown-document" class="dropdown-trigger" aria-expanded="false"
+                                aria-controls="menu-document" aria-haspopup="true">
+                                <span>Document</span>
+                                <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+                            </button>
+
+                            <ul id="menu-document" class="dropdown" role="list">
+                                <li><a href="./certificat.html">Certificat de scolarité</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Icône Déconnexion -->
+                <div class="logout">
+                    <a class="logout-btn" id="logoutBtn" aria-label="Déconnexion">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </a>
+                </div>
+
+                <!-- Bouton menu mobile -->
+                <button class="nav-toggle" aria-controls="site-menu" aria-expanded="false">
+                    <span class="visually-hidden">Ouvrir le menu</span>
+                    <img src="../assets/icon/menu.png" alt="Menu" class="icon-menu">
+                </button>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- =========================
+            BARRE DE CHARGEMENT
+        ========================== -->
+    <section class="progress-section">
+        <div class="progress-bar" aria-hidden="false">
+            <div class="progress-bar-container">
+                <div class="progress-wrapper">
+                    <div class="progress" role="progressbar" aria-label="Chargement des données" aria-valuemin="0"
+                        aria-valuemax="100" aria-valuenow="20" aria-live="polite">
+                    </div>
+                    <span class="progress-label">Taux d'encaissement à :  0% </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================
+                CONTENU PRINCIPAL
+            ========================== -->
+    <main id="contenu" class="dashboard-main" role="main">
+        <div class="container">
+            <!-- ===== Ligne 1 : Cartes chiffrées ===== -->
+            <section class="cards-row small" aria-labelledby="stats-titre">
+                <h2 id="stats-titre" class="section-title">Statistiques du jour</h2>
+                <div class="grid grid-3">
+                    <!-- Solde caisse -->
+                    <article class="card small-card" aria-labelledby="solde-titre">
+                        <header class="card-header">
+                            <h3 id="solde-titre" class="card-title">Solde Caisse</h3>
+                        </header>
+                        <div class="card-body">
+                            <p class="amount" aria-live="polite">
+                                <span class="value" data-key="solde">0</span> <span class="unit">FCFA</span>
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- Revenus du jour -->
+                    <article class="card small-card" aria-labelledby="revenus-titre">
+                        <header class="card-header">
+                            <h3 id="revenus-titre" class="card-title">Revenus du jour</h3>
+                        </header>
+                        <div class="card-body">
+                            <p class="amount with-indicator" aria-live="polite">
+                                <span class="value" data-key="revenus-jour">0</span> <span class="unit">FCFA</span>
+                                <span class="indicator up" aria-label="Tendance à la hausse">
+                                    <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+                                    <span class="visually-hidden">en hausse</span>
+                                </span>
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- Dépenses du jour -->
+                    <article class="card small-card" aria-labelledby="depenses-titre">
+                        <header class="card-header">
+                            <h3 id="depenses-titre" class="card-title">Dépenses du jour</h3>
+                        </header>
+                        <div class="card-body">
+                            <p class="amount with-indicator" aria-live="polite">
+                                <span class="value" data-key="depenses-jour">0</span> <span class="unit">FCFA</span>
+                                <span class="indicator down" aria-label="Tendance à la baisse">
+                                    <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+                                    <span class="visually-hidden">en baisse</span>
+                                </span>
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- ===== Ligne 2 : 2 graphiques + 1 carte liste ===== -->
+            <section class="cards-row large" aria-labelledby="graphiques-titre">
+                <h2 id="graphiques-titre" class="section-title">Analytique</h2>
+                <div class="grid grid-3">
+                    <!-- Graphique Revenus vs Recettes -->
+                    <article class="card large-card" aria-labelledby="revenus-recettes-titre">
+                        <header class="card-header">
+                            <h3 id="revenus-recettes-titre" class="card-title">Revenus vs Recettes</h3>
+                        </header>
+                        <div class="chart-placeholder" role="img"
+                            aria-label="Graphique comparatif des revenus et des recettes par jour">
+                            <div id="revenusRecettesChart" style="width:100%;height:100%;"></div>
+                        </div>
+
+                    </article>
+
+                    <!-- Graphique Dépenses par catégorie -->
+                    <article class="card large-card" aria-labelledby="depenses-categorie-titre">
+                        <header class="card-header">
+                            <h3 id="depenses-categorie-titre" class="card-title">Dépenses par catégorie</h3>
+                        </header>
+                        <div class="chart-placeholder" role="img"
+                            aria-label="Diagramme de répartition des dépenses par catégorie">
+                            <div id="depensesCategorieChart" style="width:100%;height:100%;"></div>
+                        </div>
+
+                    </article>
+
+                    <!-- Effectifs par classe -->
+                    <article class="card large-card" aria-labelledby="effectifs-titre">
+                        <header class="card-header">
+                            <h3 id="effectifs-titre" class="card-title">Effectif par classe</h3>
+                        </header>
+                        <div class="card-body">
+                            <ul class="class-list" role="list" aria-live="polite">
+                                <li><span class="class">Maternelle</span> <span class="dot" aria-hidden="true">•</span> <span
+                                        class="count">30</span></li>
+                                <li><span class="class">CI</span> <span class="dot" aria-hidden="true">•</span> <span
+                                        class="count">30</span></li>
+                                <li><span class="class">CP</span> <span class="dot" aria-hidden="true">•</span> <span
+                                        class="count">50</span></li>
+                                <li><span class="class">CE1</span> <span class="dot" aria-hidden="true">•</span> <span
+                                        class="count">40</span></li>
+                                <li><span class="class">CE2</span> <span class="dot" aria-hidden="true">•</span> <span
+                                        class="count">35</span></li>
+                                <li><span class="class">CM1</span> <span class="dot" aria-hidden="true">•</span> <span
+                                        class="count">45</span></li>
+                                <li><span class="class">CM2</span> <span class="dot" aria-hidden="true">•</span> <span
+                                        class="count">38</span></li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </main>
+    <!-- Spinner Overlay -->
+    <div id="loadingOverlay" class="overlay hidden">
+    <div class="spinner"></div>
+    </div>
+
+    <!-- Modal de confirmation Déconnexion -->
+    <div id="logoutModal" class="modal hidden">
+    <div class="modal-content">
+        <h3>Voulez-vous vraiment vous déconnecter ?</h3>
+        <p>Vous serez redirigé vers la page de connexion.</p>
+        <div class="modal-actions">
+        <button id="cancelLogout" class="btn-cancel">Annuler</button>
+        <button id="confirmLogout" class="btn-confirm">Se déconnecter</button>
+        </div>
+    </div>
+    </div>
+
+    <!-- =========================
+            FOOTER
+        ========================== -->
+    <footer class="dashboard-footer" role="contentinfo">
+        <div class="container">
+            <p>© 2025 Tous droits réservés | Développé par l'équipe <strong>L&amp;D DYNAMICS</strong></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script src="../scripts/chart-dashboard.js"></script>
+    
+    <script src="../scripts/burger-dashboard.js"></script>
+    <script src="../scripts/futils.js"></script>
+    <script src="../scripts/dashboard.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+/* =========================
+   Variables & Base
+========================= */
+:root {
+	/* Couleurs */
+	--primary: #004aad;      /* Bleu institutionnel */
+	--light:   #ffffff;      /* Blanc */
+	--accent:  #d4af37;      /* Or */
+
+	--bg:     #0b1220;       /* Fond profond */
+	--panel:  #0f1a30;       /* Panneau principal */
+	--panel-2:#0c1629;       /* Panneau variante */
+	--text:   #e8eef8;       /* Texte principal */
+	--muted:  #a9b4c7;       /* Texte secondaire */
+	--line:   #1f2b44;       /* Séparateurs */
+	--shadow: 0 10px 30px rgba(0,0,0,.35);
+
+	/* Typo & bords */
+	--radius:    14px;
+	--radius-sm: 12px;
+	--radius-lg: 18px;
+	--ring: 0 0 0 3px rgba(0,74,173,.25);
+
+	/* Spacing */
+	--space-1: .5rem;
+	--space-2: .75rem;
+	--space-3: 1rem;
+	--space-4: 1.25rem;
+	--space-5: 1.5rem;
+	--space-6: 2rem;
+	--space-8: 3rem;
+
+	/* Grille */
+	--maxw: 1280px;
+}
+
+html { color-scheme: dark; }
+
+body {
+	font-family: "Roboto", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+	color: var(--text);
+	background: var(--bg);
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+img { max-width: 100%; display: block; }
+
+.container {
+	width: 100%;
+	max-width: var(--maxw);
+	margin-inline: auto;
+	padding-inline: var(--space-3);
+}
+
+.section-title {
+	font-family: "Poppins", sans-serif;
+	font-size: clamp(1.05rem, 1.2vw + .8rem, 1.25rem);
+	font-weight: 700;
+	letter-spacing: .3px;
+	color: var(--muted);
+	margin: var(--space-5) 0 var(--space-3);
+}

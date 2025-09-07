@@ -1,0 +1,78 @@
+/* 0) Variables, reset doux, helpers -------------------------------------- */
+:root {
+  /* Palette existante conservée */
+  --primary: #004aad;      /* Bleu institutionnel */
+  --light:   #ffffff;
+  --accent:  #d4af37;      /* Or élégant */
+
+  --bg:     #0b1220;       /* Fond profond */
+  --panel:  #0f1a30;
+  --panel-2:#0c1629;
+  --text:   #e8eef8;
+  --muted:  #a9b4c7;
+  --line:   #1f2b44;
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+
+  --radius:    14px;
+  --radius-sm: 10px;
+  --radius-lg: 18px;
+  --ring: 0 0 0 3px rgba(0,74,173,.25);
+
+  --space-1: .5rem;
+  --space-2: .75rem;
+  --space-3: 1rem;
+  --space-4: 1.25rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+
+  --maxw: 1280px;
+
+  /* dérivées discrètes pour micro-contrastes (toujours dans la palette) */
+  --panel-3: #0a1326;           /* encore plus profond */
+  --ink: rgba(232,238,248,.08); /* voile clair */
+  --gold-veil: rgba(212,175,55,.10);
+  --blue-veil: rgba(0,74,173,.12);
+}
+
+* { box-sizing: border-box; }
+html { color-scheme: dark; }
+body {
+  margin: 0;
+  font-family: "Roboto", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 3vw, var(--space-4));
+}
+
+:where(input, select, textarea, button) { font: inherit; }
+:where(input, select, textarea) {
+  -webkit-appearance: none; appearance: none; color: var(--text);
+}
+
+/* 1) Titre & wrapper ------------------------------------------------------ */
+.certif-wrap {
+  padding-block: clamp(1rem, 2.5vw, 2rem) var(--space-8);
+}
+
+.page-title {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.4rem);
+  margin: var(--space-7) 0 var(--space-6);
+  text-align: center;
+  letter-spacing: .3px;
+  background: linear-gradient(90deg, var(--light), #dfe7f7 50%, var(--light));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 1px 0 rgba(0,0,0,.25));
+}
