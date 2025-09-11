@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>CSPAM | Enregistrement Élève</title>
+    <!-- Polices -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles/05_caisse/caisse.css" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../assets/icon/favicon.ico" type="image/x-icon" />
+
+    <style>
+        /* Ajustements page */
+        .page-header {
+            margin: var(--space-6) 0 var(--space-4);
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 1.6rem;
+            color: var(--light);
+            margin-bottom: .2rem;
+        }
+
+        .page-header p {
+            color: var(--muted);
+            font-size: .95rem;
+        }
+
+        .form-card {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-4);
+        }
+
+        .btn-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: var(--space-3);
+        }
+
+        /* Tableau */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table.csp-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        table.csp-table thead tr {
+            background: linear-gradient(90deg, rgba(10, 18, 35, 0.95), rgba(6, 12, 28, 0.95));
+            color: var(--light);
+        }
+
+        table.csp-table th,
+        table.csp-table td {
+            padding: .75rem .9rem;
+            border-bottom: 1px solid var(--line);
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        table.csp-table tbody tr:hover {
+            background: rgba(0, 74, 173, 0.03);
+        }
+
+        /* Actions */
+        .action-btn {
+            padding: .35rem .6rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-edit {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .btn-delete {
+            background: transparent;
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.08);
+            margin-left: .4rem;
+        }
+
+        /* Modal (utilise déjà les classes .modal/.modal.hidden dans caisse.css) */
+        .modal .form {
+            gap: .6rem;
+        }
+
+        .modal .modal-actions {
+            justify-content: flex-end;
+            gap: .6rem;
+        }
+
+        .btn-secondary {
+            background: #ddd;
+            color: #333;
+            border: none;
+            padding: .55rem .9rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Small responsive */
+        @media (max-width: 900px) {
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+            HEADER
+        ========================= -->
+    <header class="dashboard-header" role="banner">
+        <div class="container">
+            <div class="header-inner">
+                <!-- Logo -->
+                <div class="logo" aria-label="CSPAM - Complexe Scolaire Privé Arche du Millénium">
+                    <a href="../index.html" class="logo-link" aria-label="Retour à l'accueil">
+                        <span class="logo-text">CSPAM</span>
+                    </a>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="dashboard-nav" role="navigation" aria-label="Navigation principale">
+                    <ul class="nav-list" id="site-menu" role="list">
+                        <li class="nav-item">
+                            <a href="./dashbord.html">Tableau de bord</a>
+                        </li>
+
+                        <!-- Menu Caisse -->
+                        <li class="nav-item has-dropdown">
+                            <button id="dropdown-caisse" class="dropdown-trigger" aria-expanded="false"
+                                aria-controls="menu-caisse" aria-haspopup="true">
+                                <span>Caisse</span>
+                                <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+                            </button>
+
+                            <ul id="menu-caisse" class="dropdown" role="list">
+                                <li><a href="#" aria-current="page">Opération de Caisse</a></li>
+                                <li><a href="./releve.html">Relevé de compte</a></li>
+                                <li><a href="./rapport.html">Rapport financier</a></li>
+                                <li><a href="./historique.html">Historique des opérations</a></li>
+                                <li><a href="#">Budget prévisionnel</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Menu Elèves -->
+                        <li class="nav-item has-dropdown">
+                            <button id="dropdown-eleve" class="dropdown-trigger" aria-expanded="false"
+                                aria-controls="menu-eleve" aria-haspopup="true">
+                                <span>Élèves</span>
+                                <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+                            </button>
+                            <ul id="menu-eleve" class="dropdown" role="list">
+                                <li><a href="./inscription.html">Inscription</a></li>
+                                <li><a href="./eleves.html">Liste des élèves</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Menu Document -->
+                        <li class="nav-item has-dropdown">
+                            <button id="dropdown-document" class="dropdown-trigger" aria-expanded="false"
+                                aria-controls="menu-document" aria-haspopup="true">
+                                <span>Document</span>
+                                <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+                            </button>
+
+                            <ul id="menu-document" class="dropdown" role="list">
+                                <li><a href="./certificat.html">Certificat de scolarité</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Icône Déconnexion -->
+                <div class="logout">
+                    <a class="logout-btn" id="logoutBtn" aria-label="Déconnexion">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </a>
+                </div>
+
+                <!-- Bouton menu mobile -->
+                <button class="nav-toggle" aria-controls="site-menu" aria-expanded="false">
+                    <span class="visually-hidden">Ouvrir le menu</span>
+                    <img src="../assets/icon/menu.png" alt="Menu" class="icon-menu">
+                </button>
+            </div>
+        </div>
+    </header>
+    <!-- =========================
+            FIN HEADER
+        ========================= -->
+    <main>
+        <div class="page-header">
+            <h1>Enregistrement d’un Élève</h1>
+            <p>Remplissez toutes les lignes du formulaire pour enregistrer vos élèves en base de données</p>
+        </div>
+
+        <!-- ========== Formulaire d'ajout ========== -->
+        <section class="form-card">
+            <div class="card-header">
+                <h2 class="card-title">Formulaire Élève</h2>
+            </div>
+            <div class="card-body">
+                <form id="eleveForm" class="form" autocomplete="off">
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="nom">Nom <span style="color:red">*</span></label>
+                            <input type="text" id="nom" name="nom" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="prenom">Prénoms <span style="color:red">*</span></label>
+                            <input type="text" id="prenom" name="prenom" required>
+                        </div>
+                    </div>
+
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label for="dateNaissance">Date de naissance</label>
+                            <input type="date" id="dateNaissance" name="dateNaissance">
+                        </div>
+                        <div class="form-group">
+                            <label for="lieuNaissance">Lieu de naissance</label>
+                            <input type="text" id="lieuNaissance" name="lieuNaissance">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="classe">Classe <span style="color:red">*</span></label>
+                            <select id="classe" name="classe" required>
+                                <option value="">-- Sélectionner la classe --</option>
+                                <option value="Maternelle">Maternelle</option>
+                                <option value="CI">CI</option>
+                                <option value="CP">CP</option>
+                                <option value="CE1">CE1</option>
+                                <option value="CE2">CE2</option>
+                                <option value="CM1">CM1</option>
+                                <option value="CM2">CM2</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label for="sexe">Sexe <span style="color:red">*</span></label>
+                            <select id="sexe" name="sexe" required>
+                                <option value="">-- Choisir --</option>
+                                <option value="M">Masculin</option>
+                                <option value="F">Féminin</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="matricule">Matricule Educmaster</label>
+                            <input type="text" id="matricule" name="matricule" placeholder="CSPAM2025-001">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact">Contact Parent/Tuteur</label>
+                            <input type="text" id="contact" name="contact" placeholder="+229 90 00 00 00">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="anneeScolaire">Année Scolaire <span style="color:red">*</span></label>
+                        <input type="text" id="anneeScolaire" name="anneeScolaire" placeholder="2025-2026" required>
+                    </div>
+
+                    <div class="btn-wrapper">
+                        <button type="submit" id="btnSave" class="btn-primary">Enregistrer l’élève</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Modal de confirmation Déconnexion -->
+    <div id="logoutModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Voulez-vous vraiment vous déconnecter ?</h3>
+            <p>Vous serez redirigé vers la page de connexion.</p>
+            <div class="modal-actions">
+                <button id="cancelLogout" class="btn-cancel">Annuler</button>
+                <button id="confirmLogout" class="btn-confirm">Se déconnecter</button>
+            </div>
+        </div>
+    </div>
+    <!-- =========================
+			FOOTER
+		========================== -->
+    <footer class="dashboard-footer" role="contentinfo">
+        <div class="container">
+            <p>© 2025 Tous droits réservés | Développé par l'équipe <strong>L&amp;D DYNAMICS</strong></p>
+        </div>
+    </footer>
+    <script src="../scripts/futils.js"></script>
+    <script src="../scripts/burger-dashboard.js"></script>
+    <script>
+            /* ====== Configuration ====== */
+    const baseUrl = "http://localhost:5000/api"; // change si besoin
+    const token = localStorage.getItem("token") || "";
+
+    /* ====== Helpers ====== */
+    function protectHeaders() {
+      const headers = { "Content-Type": "application/json" };
+      if (token) headers["Authorization"] = "Bearer " + token;
+      return headers;
+    }
+
+    function toISODate(value) {
+      if (!value) return "";
+      // If already YYYY-MM-DD or ISO -> take first 10 chars
+      if (/^\d{4}-\d{2}-\d{2}/.test(value)) return value.slice(0,10);
+      // If dd/mm/yyyy -> convert
+      if (/^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
+        const [d,m,y] = value.split("/");
+        return `${y}-${m.padStart(2,"0")}-${d.padStart(2,"0")}`;
+      }
+      // last resort: try Date parse
+      const d = new Date(value);
+      if (!isNaN(d)) {
+        const mm = String(d.getMonth()+1).padStart(2,'0');
+        const dd = String(d.getDate()).padStart(2,'0');
+        return `${d.getFullYear()}-${mm}-${dd}`;
+      }
+      return "";
+    }
+
+    function formatDisplayDate(value) {
+      if (!value) return "-";
+      // try create date
+      const d = new Date(value);
+      if (!isNaN(d)) {
+        const dd = String(d.getDate()).padStart(2,'0');
+        const mm = String(d.getMonth()+1).padStart(2,'0');
+        const yyyy = d.getFullYear();
+        return `${dd}/${mm}/${yyyy}`;
+      }
+      // fallback (preserve original)
+      return value;
+    }
+
+    /* ====== DOM ====== */
+    const form = document.getElementById("eleveForm");
+    const btnSave = document.getElementById("btnSave");
+
+    /* ====== Validation regex (doit correspondre au modèle Mongoose) ====== */
+    const contactRegex = /^[+\d][\d\s\-()]{6,20}$/;
+
+    /* ====== Enregistrement (ajout) ====== */
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      // Front validation
+      if (data.contact && !contactRegex.test(data.contact)) {
+        showToast("Numéro de contact invalide ❌", "error");
+        return;
+      }
+      // required quick check
+      if (!data.nom || !data.prenom || !data.sexe || !data.classe || !data.anneeScolaire) {
+        showToast("Remplir les champs obligatoires", "warning");
+        return;
+      }
+
+      btnSave.disabled = true;
+      btnSave.innerHTML = '<span class="spinner"></span> Enregistrement...';
+
+      try {
+        const res = await fetch(`${baseUrl}/admin/eleve`, {
+          method: "POST",
+          headers: protectHeaders(),
+          body: JSON.stringify(data)
+        });
+        const json = await res.json();
+        if (res.ok) {
+          showToast("Élève enregistré ✅", "toast-success");
+          form.reset();
+        } else {
+          showToast(json.message || "Erreur enregistrement", "error");
+        }
+      } catch (err) {
+        console.error(err);
+        showToast("Erreur serveur ❌", "error");
+      } finally {
+        btnSave.disabled = false;
+        btnSave.textContent = "Enregistrer l’élève";
+      }
+    });
+    </script>
+</body>
+
+</html>

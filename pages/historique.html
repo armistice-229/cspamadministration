@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Historique des Opérations - CSPAM</title>
+  <!-- Polices -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../assets/icon/favicon.ico" type="image/x-icon" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles/05_caisse/caisser.css" />
+
+</head>
+<body>
+  
+  <h1>Historique des Opérations</h1>
+
+  <!-- Filtres -->
+  <div class="filter-box">
+    <select id="filterType">
+      <option value="">-- Type --</option>
+      <option value="entree">Entrée</option>
+      <option value="sortie">Sortie</option>
+    </select>
+    <input type="date" id="filterFrom" />
+    <input type="date" id="filterTo" />
+    <input type="text" id="filterEleve" placeholder="ID Élève (optionnel)" />
+    <input type="text" id="searchInput" placeholder="Rechercher..." />
+    <button class="btn btn-primary" onclick="loadTransactions()">Filtrer</button>
+  </div>
+
+  <!-- Tableau -->
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Montant</th>
+        <th>Élève</th>
+        <th>Reçu / Catégorie</th>
+        <th>Description / Motif</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="transactionsTable"></tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button class="btn btn-secondary" onclick="prevPage()">Précédent</button>
+    <span id="pageInfo"></span>
+    <button class="btn btn-secondary" onclick="nextPage()">Suivant</button>
+  </div>
+
+  <!-- Overlay -->
+  <div id="loadingOverlay">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Modal complet -->
+  <div id="editModal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <div id="modalTitle">Modifier l'opération</div>
+        <button class="btn btn-secondary" onclick="closeModal()" title="Fermer">✕</button>
+      </div>
+
+      <form id="editForm">
+        <input type="hidden" id="editId">
+
+        <label for="editDate">Date</label>
+        <input type="date" id="editDate" required>
+
+        <label for="editType">Type</label>
+        <select id="editType">
+          <option value="entree">Entrée</option>
+          <option value="sortie">Sortie</option>
+        </select>
+
+        <label for="editNumeroRecu">Numéro de reçu</label>
+        <input type="text" id="editNumeroRecu" placeholder="Ex: RC-2025-1234">
+
+        <label for="editEleveName">Nom Élève</label>
+        <input type="text" id="editEleveName" placeholder="Nom complet (optionnel)">
+          
+
+        <label for="editMontant">Montant (F CFA)</label>
+        <input type="number" id="editMontant" min="0" step="0.01" required>
+
+        <label for="editCategorie">Catégorie / Reçu</label>
+        <input type="text" id="editCategorie" placeholder="Ex: Frais d'inscription">
+
+        <label for="editDescription">Description / Motif</label>
+        <textarea id="editDescription" placeholder="Détails..."></textarea>
+
+        <div class="note">⚠️ Les modifications seront appliquées immédiatement. Vérifie la date et le montant.</div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeModal()">Annuler</button>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+<!-- Modal de confirmation Déconnexion -->
+    <div id="logoutModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Voulez-vous vraiment vous déconnecter ?</h3>
+            <p>Vous serez redirigé vers la page de connexion.</p>
+            <div class="modal-actions">
+                <button id="cancelLogout" class="btn-cancel">Annuler</button>
+                <button id="confirmLogout" class="btn-confirm">Se déconnecter</button>
+            </div>
+        </div>
+    </div>
+    <!-- =========================
+			FOOTER
+		========================== -->
+    <footer class="dashboard-footer" role="contentinfo">
+        <div class="container">
+            <p>© 2025 Tous droits réservés | Développé par l'équipe <strong>L&amp;D DYNAMICS</strong></p>
+        </div>
+    </footer>
+
+  <script src="../scripts/futils.js"></script>
+  <script>
+    const API_URL = "http://localhost:5000/api/caisse";
+    let transactions = [];
+    let currentPage = 1;
+    const rowsPerPage = 10;
+
+    function showLoading() { document.getElementById("loadingOverlay").style.display = "flex"; }
+    function hideLoading() { document.getElementById("loadingOverlay").style.display = "none"; }
+
+    async function loadTransactions() {
+      try {
+        showLoading();
+        const type = document.getElementById("filterType").value;
+        const from = document.getElementById("filterFrom").value;
+        const to = document.getElementById("filterTo").value;
+        const eleve = document.getElementById("filterEleve").value;
+        const params = new URLSearchParams();
+        if (type) params.append("type", type);
+        if (from) params.append("from", from);
+        if (to) params.append("to", to);
+        if (eleve) params.append("eleve", eleve);
+
+        const res = await fetch(`${API_URL}?${params.toString()}`, {
+          headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
+        });
+        if (!res.ok) throw new Error('Erreur réseau');
+        transactions = await res.json();
+        currentPage = 1;
+        renderTable();
+      } catch (err) {
+        console.error("Erreur chargement:", err);
+        showToast("Erreur lors du chargement des transactions", "error");
+      } finally {
+        hideLoading();
+      }
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById("transactionsTable");
+      tbody.innerHTML = "";
+
+      const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+      let filtered = transactions.filter(trx =>
+        (trx.nomEleve || "").toString().toLowerCase().includes(searchTerm) ||
+        (trx.eleveId || "").toString().toLowerCase().includes(searchTerm) ||
+        (trx.categorie || "").toString().toLowerCase().includes(searchTerm) ||
+        (trx.description || trx.motifs || "").toString().toLowerCase().includes(searchTerm) ||
+        (trx.recu || trx.numeroRecu || "").toString().toLowerCase().includes(searchTerm)
+      );
+
+      const start = (currentPage - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+      const pageData = filtered.slice(start, end);
+
+      pageData.forEach(trx => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${trx.date ? new Date(trx.date).toLocaleDateString() : '-'}</td>
+          <td><span class="badge ${trx.type === "entree" ? "badge-entree" : "badge-sortie"}">${trx.type || '-'}</span></td>
+          <td>${trx.montant != null ? Number(trx.montant).toLocaleString() + ' F CFA' : '-'}</td>
+          <td>${trx.nomEleve ? trx.nomEleve : (trx.eleveId ? trx.eleveId : '<span class="badge badge-na">Non lié</span>')}</td>
+          <td>${trx.recu || trx.numeroRecu || trx.categorie || '-'}</td>
+          <td>${trx.motifs || trx.description || '-'}</td>
+          <td>
+            <button class="btn btn-secondary" onclick="openModal('${trx._id}')">Modifier</button>
+            <button class="btn btn-danger" onclick="deleteTransaction('${trx._id}')">Supprimer</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById("pageInfo").textContent =
+        `Page ${currentPage} / ${Math.max(1, Math.ceil(filtered.length / rowsPerPage))}`;
+    }
+
+    function nextPage() {
+      const totalPages = Math.ceil(transactions.length / rowsPerPage);
+      if (currentPage < totalPages) { currentPage++; renderTable(); }
+    }
+    function prevPage() { if (currentPage > 1) { currentPage--; renderTable(); } }
+
+    // --- Modal behaviour ---
+    const modal = document.getElementById('editModal');
+    function openModal(id) {
+      const trx = transactions.find(t => t._id === id);
+      if (!trx) return alert('Transaction introuvable');
+
+      // Pré-remplir tous les champs — on supporte plusieurs noms de champs pour être tolérant
+      document.getElementById("editId").value = trx._id || '';
+      document.getElementById("editDate").value = trx.date ? trx.date.split('T')[0] : '';
+      document.getElementById("editType").value = trx.type || 'entree';
+      document.getElementById("editNumeroRecu").value = trx.numeroRecu || trx.recu || trx.receiptNumber || '';
+      
+      document.getElementById("editEleveName").value = trx.nomEleve || trx.studentName || '';
+      document.getElementById("editMontant").value = trx.montant != null ? trx.montant : '';
+      document.getElementById("editCategorie").value = trx.categorie || trx.recuCategory || '';
+      document.getElementById("editDescription").value = trx.motifs || trx.description || '';
+
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden', 'false');
+      // focus on first input
+      document.getElementById("editDate").focus();
+      // prevent body scroll
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    // close on outside click
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    // close on Esc
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    // --- Submit edit form ---
+    document.getElementById('editForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('editId').value;
+      const payload = {
+        date: document.getElementById('editDate').value || null,
+        type: document.getElementById('editType').value || null,
+        numeroRecu: document.getElementById('editNumeroRecu').value || null,
+        nomEleve: document.getElementById('editEleveName').value || null,
+        montant: parseFloat(document.getElementById('editMontant').value) || 0,
+        categorie: document.getElementById('editCategorie').value || null,
+        description: document.getElementById('editDescription').value || null
+      };
+
+      // validation basique
+      if (!payload.date) return showToast('La date est requise.', 'error');
+      if (!payload.montant || payload.montant <= 0) return alert('Montant invalide.');
+
+      try {
+        showLoading();
+        const res = await fetch(`${API_URL}/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+          },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) {
+          const txt = await res.text();
+          throw new Error('Erreur API: ' + (txt || res.statusText));
+        }
+        // succès — refresh liste
+        closeModal();
+        await loadTransactions();
+      } catch (err) {
+        console.error('Erreur mise à jour:', err);
+        showToast('Erreur lors de la mise à jour : ' + (err.message || err), 'error');
+      } finally {
+        hideLoading();
+      }
+    });
+
+    // --- Suppression ---
+    async function deleteTransaction(id) {
+      if (!confirm("Supprimer cette opération ?")) return;
+      try {
+        showLoading();
+        const res = await fetch(`${API_URL}/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+        });
+        if (!res.ok) throw new Error('Erreur suppression');
+        await loadTransactions();
+      } catch (err) {
+        console.error(err);
+        showToast('Erreur suppression', 'error');
+      } finally {
+        hideLoading();
+      }
+    }
+
+    document.getElementById("searchInput").addEventListener("input", renderTable);
+
+    // Charger par défaut
+    loadTransactions();
+  </script>
+</body>
+</html>

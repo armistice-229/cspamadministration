@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestion des Agents de Caisse</title>
+   
+</head>
+<body>
+  <h1>Gestion des Agents de Caisse</h1>
+
+  <!-- Formulaire -->
+  <form id="agentForm">
+    <label>Nom :</label>
+    <input type="text" id="nom" required />
+
+    <label>Prénom :</label>
+    <input type="text" id="prenom" required />
+
+    <label>Fonction :</label>
+    <input type="text" id="fonction" placeholder="titulaire, adjoint..." />
+
+    <button type="submit">Ajouter</button>
+  </form>
+
+  <hr />
+
+  <!-- Liste des agents -->
+  <h2>Liste des agents</h2>
+  <table border="1" cellpadding="5">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Fonction</th>
+        <th>Actif</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="agentsTableBody"></tbody>
+  </table>
+
+  <script src="agents.js"></script>
+</body>
+</html>

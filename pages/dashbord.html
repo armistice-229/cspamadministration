@@ -42,7 +42,7 @@
                 <nav class="dashboard-nav" role="navigation" aria-label="Navigation principale">
                     <ul class="nav-list" id="site-menu" role="list">
                         <li class="nav-item">
-                            <a href="dashbord.html" aria-current="page">Tableau de bord</a>
+                            <a href="./dashbord.html">Tableau de bord</a>
                         </li>
 
                         <!-- Menu Caisse -->
@@ -54,9 +54,24 @@
                             </button>
 
                             <ul id="menu-caisse" class="dropdown" role="list">
-                                <li><a href="./caisse.html">Opération de Caisse</a></li>
+                                <li><a href="#" aria-current="page">Opération de Caisse</a></li>
                                 <li><a href="./releve.html">Relevé de compte</a></li>
                                 <li><a href="./rapport.html">Rapport financier</a></li>
+                                <li><a href="./historique.html">Historique des opérations</a></li>
+                                <li><a href="#">Budget prévisionnel</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Menu Elèves -->
+                        <li class="nav-item has-dropdown">
+                            <button id="dropdown-eleve" class="dropdown-trigger" aria-expanded="false"
+                                aria-controls="menu-eleve" aria-haspopup="true">
+                                <span>Élèves</span>
+                                <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+                            </button>
+                            <ul id="menu-eleve" class="dropdown" role="list">
+                                <li><a href="./inscription.html">Inscription</a></li>
+                                <li><a href="./eleves.html">Liste des élèves</a></li>
                             </ul>
                         </li>
 
@@ -90,8 +105,9 @@
             </div>
         </div>
     </header>
-
-
+    <!-- =========================
+            FIN HEADER
+        ========================= -->
     <!-- =========================
             BARRE DE CHARGEMENT
         ========================== -->

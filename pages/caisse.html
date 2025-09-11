@@ -21,79 +21,89 @@
 		<link rel="shortcut icon" href="../assets/icon/favicon.ico" type="image/x-icon" />
 	</head>
 	<body>
-        <!-- =========================
+          <!-- =========================
             HEADER
         ========================= -->
-        <header class="dashboard-header" role="banner">
-            <div class="container">
-                <div class="header-inner">
-                    <!-- Logo -->
-                    <div class="logo" aria-label="CSPAM - Complexe Scolaire Privé Arche du Millénium">
-                        <a href="../index.html" class="logo-link" aria-label="Retour à l'accueil">
-                            <span class="logo-text">CSPAM</span>
-                        </a>
-                    </div>
-            
-                    <!-- Navigation -->
-                    <nav class="dashboard-nav" role="navigation" aria-label="Navigation principale">
-                        <ul class="nav-list" id="site-menu" role="list">
-                            <li class="nav-item">
-                                <a href="./dashbord.html">Tableau de bord</a>
-                            </li>
-                
-                            <!-- Menu Caisse -->
-                            <li class="nav-item has-dropdown">
-                                <button
-                                    id="dropdown-caisse"
-                                    class="dropdown-trigger"
-                                    aria-expanded="false"
-                                    aria-controls="menu-caisse"
-                                    aria-haspopup="true">
-                                    <span>Caisse</span>
-                                    <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
-                                </button>
-                    
-                                <ul id="menu-caisse" class="dropdown" role="list">
-                                    <li><a href="#" aria-current="page">Opération de Caisse</a></li>
-                                    <li><a href="./releve.html">Relevé de compte</a></li>
-                                    <li><a href="./rapport.html">Rapport financier</a></li>
-                                </ul>
-                            </li>
-                
-                            <!-- Menu Document -->
-                            <li class="nav-item has-dropdown">
-                                <button
-                                    id="dropdown-document"
-                                    class="dropdown-trigger"
-                                    aria-expanded="false"
-                                    aria-controls="menu-document"
-                                    aria-haspopup="true">
-                                    <span>Document</span>
-                                    <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
-                                </button>
-                    
-                                <ul id="menu-document" class="dropdown" role="list">
-                                    <li><a href="./certificat.html">Certificat de scolarité</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </nav>
-
-					<!-- Icône Déconnexion -->
-					<div class="logout">
-						<a  class="logout-btn" id="logoutBtn" aria-label="Déconnexion">
-							<i class="fa-solid fa-right-from-bracket"></i>
-						</a>
-					</div>
-            
-                    <!-- Bouton menu mobile -->
-                    <button class="nav-toggle" aria-controls="site-menu" aria-expanded="false">
-                        <span class="visually-hidden">Ouvrir le menu</span>
-                        <img src="../assets/icon/menu.png" alt="Menu" class="icon-menu">
-                    </button>
+    <header class="dashboard-header" role="banner">
+        <div class="container">
+            <div class="header-inner">
+                <!-- Logo -->
+                <div class="logo" aria-label="CSPAM - Complexe Scolaire Privé Arche du Millénium">
+                    <a href="../index.html" class="logo-link" aria-label="Retour à l'accueil">
+                        <span class="logo-text">CSPAM</span>
+                    </a>
                 </div>
+
+                <!-- Navigation -->
+                <nav class="dashboard-nav" role="navigation" aria-label="Navigation principale">
+                    <ul class="nav-list" id="site-menu" role="list">
+                        <li class="nav-item">
+                            <a href="./dashbord.html">Tableau de bord</a>
+                        </li>
+
+                        <!-- Menu Caisse -->
+                        <li class="nav-item has-dropdown">
+                            <button id="dropdown-caisse" class="dropdown-trigger" aria-expanded="false"
+                                aria-controls="menu-caisse" aria-haspopup="true">
+                                <span>Caisse</span>
+                                <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+                            </button>
+
+                            <ul id="menu-caisse" class="dropdown" role="list">
+                                <li><a href="#" aria-current="page">Opération de Caisse</a></li>
+                                <li><a href="./releve.html">Relevé de compte</a></li>
+                                <li><a href="./rapport.html">Rapport financier</a></li>
+                                <li><a href="./historique.html">Historique des opérations</a></li>
+                                <li><a href="#">Budget prévisionnel</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Menu Elèves -->
+                        <li class="nav-item has-dropdown">
+                            <button id="dropdown-eleve" class="dropdown-trigger" aria-expanded="false"
+                                aria-controls="menu-eleve" aria-haspopup="true">
+                                <span>Élèves</span>
+                                <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+                            </button>
+                            <ul id="menu-eleve" class="dropdown" role="list">
+                                <li><a href="./inscription.html">Inscription</a></li>
+                                <li><a href="./eleves.html">Liste des élèves</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Menu Document -->
+                        <li class="nav-item has-dropdown">
+                            <button id="dropdown-document" class="dropdown-trigger" aria-expanded="false"
+                                aria-controls="menu-document" aria-haspopup="true">
+                                <span>Document</span>
+                                <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+                            </button>
+
+                            <ul id="menu-document" class="dropdown" role="list">
+                                <li><a href="./certificat.html">Certificat de scolarité</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Icône Déconnexion -->
+                <div class="logout">
+                    <a class="logout-btn" id="logoutBtn" aria-label="Déconnexion">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </a>
+                </div>
+
+                <!-- Bouton menu mobile -->
+                <button class="nav-toggle" aria-controls="site-menu" aria-expanded="false">
+                    <span class="visually-hidden">Ouvrir le menu</span>
+                    <img src="../assets/icon/menu.png" alt="Menu" class="icon-menu">
+                </button>
             </div>
-        </header>
+        </div>
+    </header>
+    <!-- =========================
+            FIN HEADER
+        ========================= -->
 
 		<!-- =========================
 			CONTENU PRINCIPAL

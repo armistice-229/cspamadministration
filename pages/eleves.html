@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CSPAM | Enregistrement Élève</title>
+  <!-- Polices -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap"
+    rel="stylesheet" />
+
+  <!-- Icônes -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../styles/05_caisse/caisse.css" />
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="../assets/icon/favicon.ico" type="image/x-icon" />
+  <style>
+    /* Ajustements page */
+    .page-header {
+      margin: var(--space-6) 0 var(--space-4);
+      text-align: center;
+    }
+
+    .page-header h1 {
+      font-size: 1.6rem;
+      color: var(--light);
+      margin-bottom: .2rem;
+    }
+
+    .page-header p {
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .form-card {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+
+    .btn-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: var(--space-3);
+    }
+
+    /* Tableau */
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    table.csp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    table.csp-table thead tr {
+      background: linear-gradient(90deg, rgba(10, 18, 35, 0.95), rgba(6, 12, 28, 0.95));
+      color: var(--light);
+    }
+
+    table.csp-table th,
+    table.csp-table td {
+      padding: .75rem .9rem;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    table.csp-table tbody tr:hover {
+      background: rgba(0, 74, 173, 0.03);
+    }
+
+    /* Actions */
+    .action-btn {
+      padding: .35rem .6rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-edit {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid rgba(212, 175, 55, 0.15);
+    }
+
+    .btn-delete {
+      background: transparent;
+      color: #e74c3c;
+      border: 1px solid rgba(231, 76, 60, 0.08);
+      margin-left: .4rem;
+    }
+
+    /* Modal (utilise déjà les classes .modal/.modal.hidden dans caisse.css) */
+    .modal .form {
+      gap: .6rem;
+    }
+
+    .modal .modal-actions {
+      justify-content: flex-end;
+      gap: .6rem;
+    }
+
+    .btn-secondary {
+      background: #ddd;
+      color: #333;
+      border: none;
+      padding: .55rem .9rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* Small responsive */
+    @media (max-width: 900px) {
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+    <!-- =========================
+            HEADER
+        ========================= -->
+    <header class="dashboard-header" role="banner">
+        <div class="container">
+            <div class="header-inner">
+                <!-- Logo -->
+                <div class="logo" aria-label="CSPAM - Complexe Scolaire Privé Arche du Millénium">
+                    <a href="../index.html" class="logo-link" aria-label="Retour à l'accueil">
+                        <span class="logo-text">CSPAM</span>
+                    </a>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="dashboard-nav" role="navigation" aria-label="Navigation principale">
+                    <ul class="nav-list" id="site-menu" role="list">
+                        <li class="nav-item">
+                            <a href="./dashbord.html">Tableau de bord</a>
+                        </li>
+
+                        <!-- Menu Caisse -->
+                        <li class="nav-item has-dropdown">
+                            <button id="dropdown-caisse" class="dropdown-trigger" aria-expanded="false"
+                                aria-controls="menu-caisse" aria-haspopup="true">
+                                <span>Caisse</span>
+                                <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+                            </button>
+
+                            <ul id="menu-caisse" class="dropdown" role="list">
+                                <li><a href="#" aria-current="page">Opération de Caisse</a></li>
+                                <li><a href="./releve.html">Relevé de compte</a></li>
+                                <li><a href="./rapport.html">Rapport financier</a></li>
+                                <li><a href="./historique.html">Historique des opérations</a></li>
+                                <li><a href="#">Budget prévisionnel</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Menu Elèves -->
+                        <li class="nav-item has-dropdown">
+                            <button id="dropdown-eleve" class="dropdown-trigger" aria-expanded="false"
+                                aria-controls="menu-eleve" aria-haspopup="true">
+                                <span>Élèves</span>
+                                <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+                            </button>
+                            <ul id="menu-eleve" class="dropdown" role="list">
+                                <li><a href="./inscription.html">Inscription</a></li>
+                                <li><a href="./eleves.html">Liste des élèves</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Menu Document -->
+                        <li class="nav-item has-dropdown">
+                            <button id="dropdown-document" class="dropdown-trigger" aria-expanded="false"
+                                aria-controls="menu-document" aria-haspopup="true">
+                                <span>Document</span>
+                                <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+                            </button>
+
+                            <ul id="menu-document" class="dropdown" role="list">
+                                <li><a href="./certificat.html">Certificat de scolarité</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Icône Déconnexion -->
+                <div class="logout">
+                    <a class="logout-btn" id="logoutBtn" aria-label="Déconnexion">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </a>
+                </div>
+
+                <!-- Bouton menu mobile -->
+                <button class="nav-toggle" aria-controls="site-menu" aria-expanded="false">
+                    <span class="visually-hidden">Ouvrir le menu</span>
+                    <img src="../assets/icon/menu.png" alt="Menu" class="icon-menu">
+                </button>
+            </div>
+        </div>
+    </header>
+    <!-- =========================
+            FIN HEADER
+        ========================= -->
+  <main>
+    <!-- ========== Liste / Filtre / Tableau ========== -->
+    <section class="form-card" style="margin-top:1.6rem;">
+      <div class="card-header">
+        <h2 class="card-title">Liste des Élèves</h2>
+      </div>
+      <div class="card-body">
+        <div style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
+          <div class="form-group" style="margin:0;">
+            <label for="filtreClasse">Filtrer par classe :</label>
+            <select id="filtreClasse">
+              <option value="">-- Sélectionner une classe --</option>
+              <option value="Maternelle">Maternelle</option>
+              <option value="CI">CI</option>
+              <option value="CP">CP</option>
+              <option value="CE1">CE1</option>
+              <option value="CE2">CE2</option>
+              <option value="CM1">CM1</option>
+              <option value="CM2">CM2</option>
+            </select>
+          </div>
+
+          <div style="margin-left:auto; color:var(--muted); font-size:.95rem;">
+            <span id="countInfo"></span>
+          </div>
+        </div>
+
+        <div class="table-responsive" style="margin-top:1rem;">
+          <table class="csp-table" id="elevesTable">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Prénoms</th>
+                <th>Sexe</th>
+                <th>Date de naissance</th>
+                <th>Lieu de naissance</th>
+                <th>Matricule</th>
+                <th>Contact</th>
+                <th>Classe</th>
+                <th>Année</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="10" style="text-align:center; padding:1.4rem;">Veuillez sélectionner une classe</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Modal édition -->
+  <div id="editModal" class="modal hidden" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+      <h3>Modifier l'élève</h3>
+      <form id="editForm" class="form" style="margin-top:10px;">
+        <input type="hidden" id="editId" name="_id">
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="editNom">Nom <span style="color:red">*</span></label>
+            <input type="text" id="editNom" name="nom" required>
+          </div>
+          <div class="form-group">
+            <label for="editPrenom">Prénoms <span style="color:red">*</span></label>
+            <input type="text" id="editPrenom" name="prenom" required>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="editDateNaissance">Date de naissance</label>
+            <input type="date" id="editDateNaissance" name="dateNaissance">
+          </div>
+          <div class="form-group">
+            <label for="editLieuNaissance">Lieu de naissance</label>
+            <input type="text" id="editLieuNaissance" name="lieuNaissance">
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="form-group">
+            <label for="editSexe">Sexe <span style="color:red">*</span></label>
+            <select id="editSexe" name="sexe" required>
+              <option value="">-- Choisir --</option>
+              <option value="M">Masculin</option>
+              <option value="F">Féminin</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="editMatricule">Matricule</label>
+            <input type="text" id="editMatricule" name="matricule">
+          </div>
+
+          <div class="form-group">
+            <label for="editContact">Contact Parent/Tuteur</label>
+            <input type="text" id="editContact" name="contact">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="editClasse">Classe <span style="color:red">*</span></label>
+            <select id="editClasse" name="classe" required>
+              <option value="">-- Sélectionner la classe --</option>
+              <option value="Maternelle">Maternelle</option>
+              <option value="CI">CI</option>
+              <option value="CP">CP</option>
+              <option value="CE1">CE1</option>
+              <option value="CE2">CE2</option>
+              <option value="CM1">CM1</option>
+              <option value="CM2">CM2</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="editAnneeScolaire">Année Scolaire <span style="color:red">*</span></label>
+            <input type="text" id="editAnneeScolaire" name="anneeScolaire" required>
+          </div>
+        </div>
+
+        <div class="modal-actions" style="margin-top:12px;">
+          <button type="button" id="cancelEdit" class="btn-secondary">Annuler</button>
+          <button type="submit" id="saveEdit" class="btn-primary">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Modal de confirmation Déconnexion -->
+  <div id="logoutModal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Voulez-vous vraiment vous déconnecter ?</h3>
+      <p>Vous serez redirigé vers la page de connexion.</p>
+      <div class="modal-actions">
+        <button id="cancelLogout" class="btn-cancel">Annuler</button>
+        <button id="confirmLogout" class="btn-confirm">Se déconnecter</button>
+      </div>
+    </div>
+  </div>
+      <script src="../scripts/futils.js"></script>
+    <script src="../scripts/burger-dashboard.js"></script>
+
+  <script>
+    /* ====== Configuration ====== */
+    const baseUrl = "http://localhost:5000"; // change si besoin
+    const token = localStorage.getItem("token") || "";
+
+    function protectHeaders() {
+      const headers = { "Content-Type": "application/json" };
+      if (token) headers["Authorization"] = "Bearer " + token;
+      return headers;
+    }
+
+    function toISODate(value) {
+      if (!value) return "";
+      // If already YYYY-MM-DD or ISO -> take first 10 chars
+      if (/^\d{4}-\d{2}-\d{2}/.test(value)) return value.slice(0, 10);
+      // If dd/mm/yyyy -> convert
+      if (/^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
+        const [d, m, y] = value.split("/");
+        return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`;
+      }
+      // last resort: try Date parse
+      const d = new Date(value);
+      if (!isNaN(d)) {
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        return `${d.getFullYear()}-${mm}-${dd}`;
+      }
+      return "";
+    }
+
+    function formatDisplayDate(value) {
+      if (!value) return "-";
+      // try create date
+      const d = new Date(value);
+      if (!isNaN(d)) {
+        const dd = String(d.getDate()).padStart(2, '0');
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const yyyy = d.getFullYear();
+        return `${dd}/${mm}/${yyyy}`;
+      }
+      // fallback (preserve original)
+      return value;
+    }
+
+    /* ====== State ====== */
+    let currentEleves = []; // cache de la liste chargée
+
+    /* ====== DOM ====== */
+    const filtreClasse = document.getElementById("filtreClasse");
+    const tableBody = document.querySelector("#elevesTable tbody");
+    const countInfo = document.getElementById("countInfo");
+
+    /* ====== Validation regex (doit correspondre au modèle Mongoose) ====== */
+    const contactRegex = /^[+\d][\d\s\-()]{6,20}$/;
+
+    /* ====== Chargement des élèves selon la classe ====== */
+    filtreClasse.addEventListener("change", async () => {
+      const classe = filtreClasse.value;
+      tableBody.innerHTML = `<tr><td colspan="10" style="text-align:center;">Chargement...</td></tr>`;
+      countInfo.textContent = "";
+      if (!classe) {
+        tableBody.innerHTML = `<tr><td colspan="10" style="text-align:center;">Veuillez sélectionner une classe</td></tr>`;
+        return;
+      }
+
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/eleve?classe=${encodeURIComponent(classe)}`, {
+          headers: protectHeaders()
+        });
+        const json = await res.json();
+        if (!res.ok) {
+          throw new Error(json.message || "Erreur lors du chargement");
+        }
+        currentEleves = Array.isArray(json) ? json : (json.data || []);
+        renderTable(currentEleves);
+      } catch (err) {
+        console.error(err);
+        tableBody.innerHTML = `<tr><td colspan="10" style="text-align:center;">Erreur de chargement</td></tr>`;
+        showToast("Impossible de charger les élèves ❌", "error");
+      }
+    });
+
+    function renderTable(eleves) {
+      if (!eleves || eleves.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="10" style="text-align:center;">Aucun élève trouvé pour ${filtreClasse.value}</td></tr>`;
+        countInfo.textContent = "0 élèves";
+        return;
+      }
+      countInfo.textContent = `${eleves.length} élèves`;
+
+      tableBody.innerHTML = eleves.map(e => {
+        const dateAff = formatDisplayDate(e.dateNaissance);
+        const lieu = e.lieuNaissance || "-";
+        return `
+          <tr data-id="${e._id}">
+            <td>${escapeHtml(e.nom)}</td>
+            <td>${escapeHtml(e.prenom)}</td>
+            <td>${escapeHtml(e.sexe || "-")}</td>
+            <td>${dateAff}</td>
+            <td>${escapeHtml(lieu)}</td>
+            <td>${escapeHtml(e.matricule || "-")}</td>
+            <td>${escapeHtml(e.contact || "-")}</td>
+            <td>${escapeHtml(e.classe || "-")}</td>
+            <td>${escapeHtml(e.anneeScolaire || "-")}</td>
+            <td>
+              <button class="action-btn btn-edit" onclick="openEditModal('${e._id}')">Modifier</button>
+              <button class="action-btn btn-delete" onclick="supprimerEleve('${e._id}')">Supprimer</button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    /* ====== Supprimer élève ====== */
+    async function supprimerEleve(id) {
+      if (!confirm("Voulez-vous vraiment supprimer cet élève ?")) return;
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/eleve/${id}`, {
+          method: "DELETE",
+          headers: protectHeaders()
+        });
+        if (res.ok) {
+          showToast("Élève supprimé ✅", "success");
+          filtreClasse.dispatchEvent(new Event("change"));
+        } else {
+          const json = await res.json();
+          showToast(json.message || "Erreur suppression", "error");
+        }
+      } catch (err) {
+        console.error(err);
+        showToast("Erreur serveur ❌", "error");
+      }
+    }
+
+    /* ====== Edition (modal) ====== */
+    window.openEditModal = function (id) {
+      const el = currentEleves.find(x => x._id === id);
+      if (!el) {
+        showToast("Élève introuvable", "warning");
+        return;
+      }
+      // remplir le formulaire d'édition
+      document.getElementById("editId").value = el._id;
+      document.getElementById("editNom").value = el.nom || "";
+      document.getElementById("editPrenom").value = el.prenom || "";
+      document.getElementById("editDateNaissance").value = toISODate(el.dateNaissance || "");
+      document.getElementById("editLieuNaissance").value = el.lieuNaissance || "";
+      document.getElementById("editSexe").value = el.sexe || "";
+      document.getElementById("editMatricule").value = el.matricule || "";
+      document.getElementById("editContact").value = el.contact || "";
+      document.getElementById("editClasse").value = el.classe || "";
+      document.getElementById("editAnneeScolaire").value = el.anneeScolaire || "";
+
+      // afficher modal
+      const modal = document.getElementById("editModal");
+      modal.classList.remove("hidden");
+      modal.setAttribute("aria-hidden", "false");
+    };
+
+    // fermer modal
+    document.getElementById("cancelEdit").addEventListener("click", closeEditModal);
+    document.getElementById("editModal").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) closeEditModal();
+    });
+
+    function closeEditModal() {
+      const modal = document.getElementById("editModal");
+      modal.classList.add("hidden");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    // sauvegarder l'édition
+    document.getElementById("editForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const id = document.getElementById("editId").value;
+      const data = Object.fromEntries(new FormData(e.target).entries());
+
+      // validation contact
+      if (data.contact && !contactRegex.test(data.contact)) {
+        showToast("Numéro de contact invalide ❌", "error");
+        return;
+      }
+      // required
+      if (!data.nom || !data.prenom || !data.sexe || !data.classe || !data.anneeScolaire) {
+        showToast("Remplir les champs obligatoires", "warning");
+        return;
+      }
+
+      const btn = document.getElementById("saveEdit");
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Enregistrement...';
+
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/eleve/${id}`, {
+          method: "PUT",
+          headers: protectHeaders(),
+          body: JSON.stringify(data)
+        });
+        const json = await res.json();
+        if (res.ok) {
+          showToast("Élève mis à jour ✅", "success");
+          closeEditModal();
+          // Si la classe affichée correspond à la nouvelle classe ou ancienne, reload
+          filtreClasse.dispatchEvent(new Event("change"));
+        } else {
+          showToast(json.message || "Erreur lors de la mise à jour", "error");
+        }
+      } catch (err) {
+        console.error(err);
+        showToast("Erreur serveur ❌", "error");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Enregistrer";
+      }
+    });
+
+    /* ====== XSS simple escape pour afficher les valeurs ====== */
+    function escapeHtml(text) {
+      if (!text && text !== 0) return "";
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    /* ==== Initial behaviour: optional load first classe ==== */
+    // Tu peux décommenter la ligne ci-dessous pour charger automatiquement la première vraie classe:
+    document.getElementById('filtreClasse').value = 'CI'; document.getElementById('filtreClasse').dispatchEvent(new Event('change'));
+  </script>
+</body>
+
+</html>
