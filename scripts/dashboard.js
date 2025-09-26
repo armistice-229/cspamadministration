@@ -35,14 +35,11 @@ async function loadStats() {
     });
     const data = await res.json();
 
-    // Solde total
-    document.querySelector('[data-key="solde"]').textContent = data.solde.toLocaleString();
+   document.querySelector('[data-key="solde"]').textContent = data.solde?.toLocaleString() ?? "******";
 
-    // Revenus du jour
-    document.querySelector('[data-key="revenus-jour"]').textContent = data.revenusJour.toLocaleString();
+    document.querySelector('[data-key="revenus-jour"]').textContent = (data.revenusJour ?? 0).toLocaleString();
 
-    // Dépenses du jour
-    document.querySelector('[data-key="depenses-jour"]').textContent = data.depensesJour.toLocaleString();
+    document.querySelector('[data-key="depenses-jour"]').textContent = (data.depensesJour ?? 0).toLocaleString();
 
   } catch (err) {
     console.error("Erreur chargement stats:", err);
