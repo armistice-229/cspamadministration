@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/frais", {
+      const res = await fetch("http://localhost:5000/api/admin/frais", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ classe, montant, anneeScolaire })
