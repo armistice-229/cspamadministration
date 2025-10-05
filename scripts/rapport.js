@@ -58,6 +58,50 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  const btnListe = document.getElementById("btnlisteAlphabetique");
+
+    if (btnListe) {
+        btnListe.addEventListener("click", async () => {
+            try {
+                // Ici, tu peux récupérer dynamiquement la classe sélectionnée
+                // Par exemple depuis un <select id="selectClasse"> si tu en as un
+                const classe = prompt("Entrez la classe (ex: CI, CP, CE1...) :");
+                if (!classe) return;
+
+                const annee = "2024-2025"; // ou à récupérer depuis ton store global
+                const token = localStorage.getItem("token"); // auth JWT
+
+                const url = `http://localhost:5000/api/rapport/liste/${classe}?annee=${encodeURIComponent(annee)}`;
+                const resp = await fetch(url, {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+
+                if (!resp.ok) {
+                    if (resp.status === 404) {
+                        alert("Aucun élève trouvé pour cette classe.");
+                        return;
+                    }
+                    throw new Error("Erreur lors de la génération du PDF");
+                }
+
+                // Télécharger le PDF
+                const blob = await resp.blob();
+                const link = document.createElement("a");
+                link.href = window.URL.createObjectURL(blob);
+                link.download = `liste_${classe}.pdf`;
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+
+            } catch (err) {
+                console.error("Erreur :", err);
+                alert("Une erreur est survenue lors du téléchargement du PDF.");
+            }
+        });
+    }
 });
 
 
