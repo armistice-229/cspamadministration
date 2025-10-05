@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const annee = "2024-2025"; // ou à récupérer depuis ton store global
                 const token = localStorage.getItem("token"); // auth JWT
 
-                const url = `http://localhost:5000/api/rapport/liste/${classe}?annee=${encodeURIComponent(annee)}`;
+                const url = `https://cspam-backend.onrender.com/api/rapport/liste/${classe}?annee=${encodeURIComponent(annee)}`;
                 const resp = await fetch(url, {
                     headers: {
                         "Authorization": `Bearer ${token}`
