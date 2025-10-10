@@ -101,7 +101,7 @@
     // 🔹 Charger les classes disponibles depuis la collection FraisScolarite
     async function chargerClasses() {
       try {
-        const res = await fetch("http://localhost:5000/api/compte/classes"); // à implémenter dans ton backend
+        const res = await fetch("https://cspam-backend.onrender.com/api/compte/classes"); // à implémenter dans ton backend
         const data = await res.json();
         data.forEach(classe => {
           const opt = document.createElement("option");
@@ -159,3 +159,4 @@
   </script>
 </body>
 </html>
+
