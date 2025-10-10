@@ -124,7 +124,7 @@
       eleveSelect.innerHTML = '<option value="">-- Choisir un élève --</option>';
 
       try {
-        const res = await fetch(`http://localhost:5000/api/compte/eleves/${classe}`);
+        const res = await fetch(`https://cspam-backend.onrender.com/api/compte/eleves/${classe}`);
         const eleves = await res.json();
 
         eleves.forEach(e => {
@@ -146,7 +146,7 @@
     btnTelecharger.addEventListener("click", () => {
       const eleveId = eleveSelect.value;
       if (!eleveId) return alert("Veuillez choisir un élève.");
-      window.open(`http://localhost:5000/api/compte/releve/${eleveId}`, "_blank");
+      window.open(`https://cspam-backend.onrender.com/api/compte/releve/${eleveId}`, "_blank");
     });
 
     // Activation du bouton si un élève est choisi
@@ -159,4 +159,5 @@
   </script>
 </body>
 </html>
+
 
