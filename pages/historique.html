@@ -100,7 +100,7 @@
         <label for="editDescription">Description / Motif</label>
         <textarea id="editDescription" placeholder="Détails..."></textarea>
 
-        <div class="note">⚠️ Les modifications seront appliquées immédiatement. Vérifie la date et le montant.</div>
+        <div class="note">⚠️ Les modifications seront appliquées immédiatement. Et sera marqué dans le registre de sécurité que vous avez modifié cette opération</div>
 
         <div class="modal-actions">
           <button type="button" class="btn btn-secondary" onclick="closeModal()">Annuler</button>
@@ -195,7 +195,6 @@
           <td>${trx.motifs || trx.description || '-'}</td>
           <td>
             <button class="btn btn-secondary" onclick="openModal('${trx._id}')">Modifier</button>
-            <button class="btn btn-danger" onclick="deleteTransaction('${trx._id}')">Supprimer</button>
           </td>
         `;
         tbody.appendChild(tr);
