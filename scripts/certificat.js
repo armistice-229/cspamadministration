@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
  
   // 👉 On initialise le widget FedaPay une seule fois
   FedaPay.init("#generate-btn", {
-    public_key: "pk_live_2dkPm2oKI6Jl9fDN2tnfmCN7", // Mets la clé live en prod
+    public_key: "pk_sandbox_MzRYR_dNY8mLjA8BKJHxaV0I", // Mets la clé live en prod
     transaction: {
       description: "Certificat de scolarité",
       amount: 295,
