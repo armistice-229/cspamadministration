@@ -29,6 +29,13 @@
       <option value="entree">Entrée</option>
       <option value="sortie">Sortie</option>
     </select>
+    <select id="filterAnnee">
+      <option value="">Année active</option>
+      <option value="2024-2025">2024-2025</option>
+      <option value="2025-2026">2025-2026</option>
+      <option value="2026-2027">2026-2027</option>
+      <option value="toutes">Toutes les années</option>
+    </select>
     <input type="date" id="filterFrom" />
     <input type="date" id="filterTo" />
     <input type="text" id="filterEleve" placeholder="ID Élève (optionnel)" />
@@ -151,6 +158,18 @@
         if (from) params.append("from", from);
         if (to) params.append("to", to);
         if (eleve) params.append("eleve", eleve);
+
+        // Par défaut, on ne regarde que l'année scolaire ACTIVE (sinon toutes
+        // les années s'affichent mélangées, comme c'était le cas avant).
+        // "toutes" retire complètement le filtre, pour un audit sur tout l'historique.
+        const anneeChoisie = document.getElementById("filterAnnee").value;
+        if (anneeChoisie && anneeChoisie !== "toutes") {
+          params.append("annee", anneeChoisie);
+        } else if (!anneeChoisie) {
+          const annee = (typeof getAnneeActive === "function") ? await getAnneeActive() : null;
+          if (annee) params.append("annee", annee);
+        }
+        // anneeChoisie === "toutes" -> on n'ajoute aucun filtre "annee"
 
         const res = await fetch(`${API_URL}?${params.toString()}`, {
           headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
