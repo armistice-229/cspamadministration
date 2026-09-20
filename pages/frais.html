@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CSPAM | Frais de scolarité</title>
+  <!-- Polices -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap"
+    rel="stylesheet" />
+
+  <!-- Icônes -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../styles/05_caisse/caisse.css" />
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="../assets/icon/favicon.ico" type="image/x-icon" />
+  <style>
+    .btn-secondary {
+      background: #ddd;
+      color: #333;
+      border: none;
+      padding: .55rem .9rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .frais-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: .5rem;
+    }
+
+    .frais-table th,
+    .frais-table td {
+      padding: .6rem .8rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    #bulkFraisResult.hidden,
+    #fraisForm.hidden {
+      display: none;
+    }
+
+    .modal .modal-actions {
+      justify-content: flex-end;
+      gap: .6rem;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+          HEADER
+      ========================= -->
+  <header class="dashboard-header" role="banner">
+    <div class="container">
+      <div class="header-inner">
+        <!-- Logo -->
+        <div class="logo" aria-label="CSPAM - Complexe Scolaire Privé Arche du Millénium">
+          <a href="../index.html" class="logo-link" aria-label="Retour à l'accueil">
+            <span class="logo-text">CSPAM</span>
+          </a>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="dashboard-nav" role="navigation" aria-label="Navigation principale">
+          <ul class="nav-list" id="site-menu" role="list">
+            <li class="nav-item">
+              <a href="./dashbord.html">Tableau de bord</a>
+            </li>
+
+            <!-- Menu Caisse -->
+            <li class="nav-item has-dropdown">
+              <button id="dropdown-caisse" class="dropdown-trigger" aria-expanded="false"
+                aria-controls="menu-caisse" aria-haspopup="true">
+                <span>Caisse</span>
+                <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+              </button>
+
+              <ul id="menu-caisse" class="dropdown" role="list">
+                <li><a href="./caisse.html">Opération de Caisse</a></li>
+                <li><a href="./releve.html">Relevé de compte</a></li>
+                <li><a href="./rapport.html">Rapport financier</a></li>
+                <li><a href="./historique.html">Historique des opérations</a></li>
+                <li><a href="#">Budget prévisionnel</a></li>
+              </ul>
+            </li>
+
+            <!-- Menu Elèves -->
+            <li class="nav-item has-dropdown">
+              <button id="dropdown-eleve" class="dropdown-trigger" aria-expanded="false"
+                aria-controls="menu-eleve" aria-haspopup="true">
+                <span>Élèves</span>
+                <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+              </button>
+              <ul id="menu-eleve" class="dropdown" role="list">
+                <li><a href="./inscription.html">Inscription</a></li>
+                <li><a href="./eleves.html">Liste des élèves</a></li>
+                <li><a href="./frais.html" aria-current="page">Frais de scolarité</a></li>
+              </ul>
+            </li>
+
+            <!-- Menu Document -->
+            <li class="nav-item has-dropdown">
+              <button id="dropdown-document" class="dropdown-trigger" aria-expanded="false"
+                aria-controls="menu-document" aria-haspopup="true">
+                <span>Document</span>
+                <i class="fa-solid fa-chevron-down chev" aria-hidden="true"></i>
+              </button>
+
+              <ul id="menu-document" class="dropdown" role="list">
+                <li><a href="./certificat.html">Certificat de scolarité</a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Icône Déconnexion -->
+        <div class="logout">
+          <a class="logout-btn" id="logoutBtn" aria-label="Déconnexion">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </a>
+        </div>
+
+        <!-- Bouton menu mobile -->
+        <button class="nav-toggle" aria-controls="site-menu" aria-expanded="false">
+          <span class="visually-hidden">Ouvrir le menu</span>
+          <img src="../assets/icon/menu.png" alt="Menu" class="icon-menu">
+        </button>
+      </div>
+    </div>
+  </header>
+  <!-- =========================
+          FIN HEADER
+      ========================= -->
+
+  <main>
+    <section class="form-card" style="margin-top:1.6rem;">
+      <div class="card-header">
+        <h2 class="card-title">Ajouter un frais de scolarité</h2>
+      </div>
+      <div class="card-body">
+        <form id="frais-form" class="form">
+          <div class="grid-3">
+            <div class="form-group">
+              <label for="classe">Classe</label>
+              <select id="classe" required>
+                <option value="" disabled selected>Choisissez une classe</option>
+                <option value="Maternelle">Maternelle</option>
+                <option value="CI">CI</option>
+                <option value="CP">CP</option>
+                <option value="CE1">CE1</option>
+                <option value="CE2">CE2</option>
+                <option value="CM1">CM1</option>
+                <option value="CM2">CM2</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="montant">Montant (FCFA)</label>
+              <input type="number" id="montant" required placeholder="Ex: 40000">
+            </div>
+
+            <div class="form-group">
+              <label for="annee">Année scolaire</label>
+              <input type="text" id="annee" required placeholder="Ex: 2026-2027">
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary" style="margin-top:.8rem;">Enregistrer</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="form-card" style="margin-top:1.6rem;">
+      <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.6rem;">
+        <h2 class="card-title">Frais enregistrés</h2>
+        <button type="button" id="btnDupliquerFrais" class="btn-secondary">Dupliquer les frais d'une année vers une autre</button>
+      </div>
+      <div class="card-body">
+        <table class="frais-table">
+          <thead>
+            <tr>
+              <th>Classe</th>
+              <th>Année scolaire</th>
+              <th>Montant (FCFA)</th>
+            </tr>
+          </thead>
+          <tbody id="frais-list"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal duplication des frais -->
+  <div id="dupliquerFraisModal" class="modal hidden" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+      <h3>Dupliquer les frais de scolarité</h3>
+      <p style="color:var(--muted); margin:4px 0 12px;">
+        Copie le montant de chaque classe d'une année vers une autre. Les classes
+        qui ont déjà un montant défini pour l'année cible ne sont pas modifiées.
+      </p>
+
+      <form id="dupliquerFraisForm" class="form">
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="dupliquerAnneeSource">Année source <span style="color:red">*</span></label>
+            <input type="text" id="dupliquerAnneeSource" placeholder="Ex: 2024-2025" required>
+          </div>
+          <div class="form-group">
+            <label for="dupliquerAnneeCible">Année cible <span style="color:red">*</span></label>
+            <input type="text" id="dupliquerAnneeCible" placeholder="Ex: 2026-2027" required>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="cancelDupliquerFrais" class="btn-secondary">Annuler</button>
+          <button type="submit" id="saveDupliquerFrais" class="btn-primary">Dupliquer</button>
+        </div>
+      </form>
+
+      <div id="bulkFraisResult" class="hidden" style="margin-top:14px; border-top:1px solid rgba(255,255,255,.08); padding-top:12px;">
+        <p id="bulkFraisSummary" style="font-weight:600;"></p>
+        <div class="modal-actions">
+          <button type="button" id="closeBulkFraisResult" class="btn-primary">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmation Déconnexion -->
+  <div id="logoutModal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Voulez-vous vraiment vous déconnecter ?</h3>
+      <p>Vous serez redirigé vers la page de connexion.</p>
+      <div class="modal-actions">
+        <button id="cancelLogout" class="btn-cancel">Annuler</button>
+        <button id="confirmLogout" class="btn-confirm">Se déconnecter</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../scripts/futils.js"></script>
+  <script src="../scripts/burger-dashboard.js"></script>
+
+  <script>
+    const baseUrl = "https://cspam-backend.onrender.com";
+    const token = localStorage.getItem("token") || "";
+
+    function protectHeaders() {
+      const headers = { "Content-Type": "application/json" };
+      if (token) headers["Authorization"] = "Bearer " + token;
+      return headers;
+    }
+
+    const form = document.getElementById("frais-form");
+    const fraisList = document.getElementById("frais-list");
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      fetchFrais();
+      if (typeof getAnneeActive === "function") {
+        const annee = await getAnneeActive();
+        document.getElementById("annee").value = annee;
+        document.getElementById("dupliquerAnneeCible").value = annee;
+      }
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const classe = document.getElementById("classe").value;
+      const montant = document.getElementById("montant").value;
+      const anneeScolaire = document.getElementById("annee").value.trim();
+
+      if (!classe || !montant || !anneeScolaire) {
+        showToast("Veuillez remplir tous les champs.", "warning");
+        return;
+      }
+
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/frais/`, {
+          method: "POST",
+          headers: protectHeaders(),
+          body: JSON.stringify({ classe, montant, anneeScolaire })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          showToast(data.error || "Erreur lors de l'enregistrement.", "error");
+          return;
+        }
+
+        showToast("Frais enregistré avec succès ✅", "success");
+        form.reset();
+        fetchFrais();
+      } catch (err) {
+        console.error("Erreur réseau :", err);
+        showToast("Erreur réseau, impossible de contacter le serveur.", "error");
+      }
+    });
+
+    async function fetchFrais() {
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/frais/`, {
+          headers: protectHeaders()
+        });
+        const frais = await res.json();
+
+        fraisList.innerHTML = "";
+        frais.forEach(f => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${f.classe}</td><td>${f.anneeScolaire}</td><td>${f.montant.toLocaleString("fr-FR")}</td>`;
+          fraisList.appendChild(tr);
+        });
+      } catch (err) {
+        console.error("Erreur chargement frais :", err);
+        showToast("Impossible de charger les frais.", "error");
+      }
+    }
+
+    /* ====== Duplication des frais d'une année vers une autre ====== */
+    document.getElementById("btnDupliquerFrais").addEventListener("click", () => {
+      document.getElementById("dupliquerFraisForm").classList.remove("hidden");
+      document.getElementById("bulkFraisResult").classList.add("hidden");
+      const modal = document.getElementById("dupliquerFraisModal");
+      modal.classList.remove("hidden");
+      modal.setAttribute("aria-hidden", "false");
+    });
+
+    document.getElementById("cancelDupliquerFrais").addEventListener("click", closeDupliquerFraisModal);
+    document.getElementById("closeBulkFraisResult").addEventListener("click", () => {
+      closeDupliquerFraisModal();
+      fetchFrais();
+    });
+    document.getElementById("dupliquerFraisModal").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) closeDupliquerFraisModal();
+    });
+
+    function closeDupliquerFraisModal() {
+      const modal = document.getElementById("dupliquerFraisModal");
+      modal.classList.add("hidden");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    document.getElementById("dupliquerFraisForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const anneeSource = document.getElementById("dupliquerAnneeSource").value.trim();
+      const anneeCible = document.getElementById("dupliquerAnneeCible").value.trim();
+
+      if (!anneeSource || !anneeCible) {
+        showToast("Remplir les deux années", "warning");
+        return;
+      }
+      if (!/^\d{4}-\d{4}$/.test(anneeSource) || !/^\d{4}-\d{4}$/.test(anneeCible)) {
+        showToast("Format d'année invalide (ex: 2026-2027)", "error");
+        return;
+      }
+
+      const btn = document.getElementById("saveDupliquerFrais");
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Duplication...';
+
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/frais/dupliquer`, {
+          method: "POST",
+          headers: protectHeaders(),
+          body: JSON.stringify({ anneeSource, anneeCible })
+        });
+        const json = await res.json();
+
+        document.getElementById("dupliquerFraisForm").classList.add("hidden");
+        const resultBox = document.getElementById("bulkFraisResult");
+        resultBox.classList.remove("hidden");
+        document.getElementById("bulkFraisSummary").textContent =
+          json.message || (res.ok ? "Duplication terminée." : "Erreur lors de la duplication.");
+
+        if (res.ok) showToast("Duplication terminée ✅", "success");
+      } catch (err) {
+        console.error(err);
+        showToast("Erreur serveur ❌", "error");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Dupliquer";
+      }
+    });
+
+    /* ====== Toast minimal (au cas où futils.js n'en fournit pas déjà un) ====== */
+    if (typeof showToast !== "function") {
+      window.showToast = function (message, type) {
+        alert(message);
+      };
+    }
+
+    /* ====== Déconnexion ====== */
+    const logoutBtn = document.getElementById("logoutBtn");
+    const logoutModal = document.getElementById("logoutModal");
+    if (logoutBtn && logoutModal) {
+      logoutBtn.addEventListener("click", () => logoutModal.classList.remove("hidden"));
+      document.getElementById("cancelLogout").addEventListener("click", () => logoutModal.classList.add("hidden"));
+      document.getElementById("confirmLogout").addEventListener("click", () => {
+        localStorage.removeItem("token");
+        window.location.href = "../index.html";
+      });
+    }
+  </script>
+</body>
+
+</html>
