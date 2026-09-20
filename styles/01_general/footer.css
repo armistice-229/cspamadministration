@@ -1,0 +1,12 @@
+/* =========================
+   Footer
+========================= */
+.dashboard-footer {
+	border-top: 1px solid var(--line);
+	background: linear-gradient(180deg, rgba(12,22,41,.6), rgba(12,22,41,.9));
+}
+.dashboard-footer p {
+	margin: 0; padding: var(--space-5) 0;
+	color: var(--muted); text-align: center; font-size: .95rem;
+}
+.dashboard-footer strong { color: var(--light); }

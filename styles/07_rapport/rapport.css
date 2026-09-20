@@ -1,0 +1,336 @@
+/* =========================================================
+   CSPAM – Rapport Financier
+========================================================= */
+
+/* =========================
+   Imports
+========================= */
+@import url("../01_general/reset.css");
+@import url("./base.css");
+@import url("../01_general/header.css");
+@import url("../01_general/footer.css");
+
+/* =========================
+   Structure de page
+========================= */
+.dashboard-main {
+  padding-block: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-title {
+  margin: 0 0 var(--space-6);
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.5rem, 2vw + 1.2rem, 2.2rem);
+  line-height: 1.2;
+  letter-spacing: .4px;
+  color: var(--light);
+  text-align: center;
+  text-shadow: 0 0 0 rgba(0,0,0,0); /* léger effet neutre */
+}
+
+/* =========================
+   Grille des cartes
+========================= */
+.reports-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+  justify-content: center; /* centre les cartes */
+  margin-bottom: var(--space-6);
+}
+
+/* =========================
+   Carte Rapport
+========================= */
+.report-card {
+  position: relative;
+  padding: var(--space-4);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-align: left;
+  overflow: hidden;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.report-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px rgba(0,0,0,.4);
+  border-color: var(--accent);
+}
+
+/* Header de carte */
+.report-card-header {
+  margin-bottom: var(--space-3);
+}
+
+.report-card-title {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: clamp(1rem, 0.7vw + 1rem, 1.25rem);
+  letter-spacing: .35px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* Corps de carte */
+.report-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: stretch;
+  min-height: 120px;
+  padding: var(--space-4);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+}
+
+/* =========================
+   Boutons
+========================= */
+.btn-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  padding: .9rem 1.1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+
+  background:
+    radial-gradient(120% 140% at 20% 0%, rgba(255,255,255,.06), transparent 60%),
+    linear-gradient(180deg, var(--primary), color-mix(in oklab, var(--primary) 85%, #1a1f2e));
+  
+  color: var(--light);
+  font-weight: 700;
+  font-size: .95rem;
+  letter-spacing: .25px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.25);
+
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .25s ease, filter .25s ease, background .25s ease;
+}
+
+.btn-download i {
+  font-size: 1rem;
+}
+
+/* États */
+.btn-download:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(0,0,0,.3);
+  filter: brightness(1.05);
+}
+
+.btn-download:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 18px rgba(0,0,0,.22);
+}
+
+.btn-download:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+/* Variante neutre (ex. dernière carte) */
+.report-card:last-of-type .btn-download {
+  background:
+    radial-gradient(120% 140% at 20% 0%, rgba(255,255,255,.06), transparent 60%),
+    linear-gradient(180deg, #0e1931 0%, #0f1a30 100%);
+  color: var(--text);
+}
+
+/* =========================
+   Responsiveness
+========================= */
+@media (max-width: 900px) {
+  .report-card-body {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+    min-height: 0;
+  }
+
+  .btn-download {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+
+
+
+/* =========================
+   Accessibilité & Motion
+========================= */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+  .report-card:hover { transform: none; }
+  .btn-download:hover, .btn-download:active { transform: none; }
+}
+
+
+
+/* Logout Modal */
+/* Style modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+  z-index: 9999;
+}
+
+.modal.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: scaleIn 0.3s ease;
+}
+
+.modal-content h3 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  color: #333;
+}
+.modal-content p {
+  margin-bottom: 20px;
+  color: #555;
+  font-size: 1rem;
+}
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.btn-cancel,
+.btn-confirm {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.btn-cancel {
+  background: #ddd;
+  color: #333;
+}
+
+.btn-cancel:hover {
+  background: #bbb;
+}
+
+.btn-confirm {
+  background: #e63946;
+  color: #fff;
+}
+
+.btn-confirm:hover {
+  background: #c71c30;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+
+/* Modal date */
+.input-date {
+  display: block;
+  margin: 15px auto;
+  padding: 8px 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 250px;
+}
+
+
+/* Forcer la couleur du texte dans l’input date */
+.input-date {
+  color: #000; /* texte en noir */
+}
+
+/* Cibler le placeholder de l’input date */
+.input-date::placeholder {
+  color: #000;
+  opacity: 1; /* certains navigateurs mettent une opacité par défaut */
+}
+
+/* WebKit (Chrome, Safari) */
+.input-date::-webkit-datetime-edit,
+.input-date::-webkit-datetime-edit-fields-wrapper,
+.input-date::-webkit-datetime-edit-text,
+.input-date::-webkit-datetime-edit-month-field,
+.input-date::-webkit-datetime-edit-day-field,
+.input-date::-webkit-datetime-edit-year-field {
+  color: #000; /* force noir sur toutes les parties */
+}
+
+/* Firefox */
+.input-date::-moz-placeholder {
+  color: #000;
+  opacity: 1;
+}
+
+
+/* Notifications (toasts) */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: -300px;
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #fff;
+  opacity: 0.95;
+  transition: right 0.5s ease, opacity 0.5s ease;
+  z-index: 1000;
+}
+.toast.visible {
+  right: 20px;
+}
+.toast-info {
+  background: #3498db;
+}
+.toast-success {
+  background: #2ecc71;
+}
+.toast-error {
+  background: #e74c3c;
+}
+.toast-warning {
+  background: #f39c12;
+}

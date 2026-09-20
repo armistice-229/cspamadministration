@@ -1,0 +1,357 @@
+/* =========================================================
+  CSPAM – Relevé de Compte (releve.css)
+  Style cohérent avec le Dashboard, moderne & épuré
+========================================================= */
+
+/* =========================
+  Imports & Variables
+========================= */
+@import url("../01_general/reset.css");
+@import url("./base.css");
+@import url("../01_general/header.css");
+@import url("../01_general/footer.css");
+
+/* =========================
+  Layout Principal
+========================= */
+.dashboard-main {
+  padding-block: var(--space-6);
+}
+
+.cards-row {
+  margin-bottom: var(--space-6);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* =========================
+  Cartes
+========================= */
+.card {
+  position: relative;
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+}
+
+.card-header {
+  padding: var(--space-4) var(--space-4) var(--space-2);
+}
+
+.card-title {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  font-size: clamp(1rem, 0.7vw + 0.95rem, 1.2rem);
+  color: var(--light);
+}
+
+.card-body {
+  padding: 0 var(--space-4) var(--space-5);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* =========================
+  Carte Formulaire Élève
+========================= */
+.form-card {
+  max-width: 1000px;
+  margin-inline: auto;
+  width: 100%;
+}
+
+.student-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-4);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* ===== Champs généraux (input + select) ===== */
+.form-group input,
+.form-group select {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: #0e1931;
+  color: var(--text);
+  font-size: 0.95rem;
+  transition: border 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  appearance: none; /* supprime le style natif */
+  cursor: pointer;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: var(--ring);
+  background: rgba(14, 25, 49, 0.95);
+}
+
+/* ===== Select personnalisé ===== */
+.form-group select {
+  position: relative;
+  padding-right: 2.5rem; /* espace pour la flèche */
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23d4af37' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  background-size: 1rem;
+  transition: transform 0.18s ease;
+}
+
+.form-group select:focus {
+  transform: scale(1.01);
+}
+
+/* Options du menu */
+.form-group select option {
+  background: #0e1931;
+  color: var(--text);
+  font-size: 0.95rem;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+}
+
+/* Hover & sélection élégante */
+.form-group select option:hover {
+  background: rgba(0, 74, 173, 0.25);
+  color: var(--light);
+}
+
+.form-group select option:checked {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* Animation d’ouverture simulée */
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-group select:focus option {
+  animation: dropdownFade 0.2s ease forwards;
+}
+
+/* =========================
+  Titre Élève
+========================= */
+.student-title {
+  margin: var(--space-6) 0 var(--space-4);
+  text-align: center;
+}
+
+.student-title h1 {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(1.3rem, 1.4vw + 1rem, 1.8rem);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+}
+
+/* =========================
+  Graphiques (placeholders)
+========================= */
+.chart-placeholder {
+  height: clamp(300px, 35vh, 400px);
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.02) 0 10px,
+    rgba(255, 255, 255, 0.04) 10px 20px
+  );
+}
+
+/* =========================
+  Effets subtils
+========================= */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(600px 200px at -10% -20%, rgba(212,175,55,.08), transparent 40%),
+    radial-gradient(800px 300px at 110% -10%, rgba(0,74,173,.09), transparent 45%);
+}
+
+/* =========================
+  Responsiveness
+========================= */
+@media (max-width: 900px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+  .form-card {
+    max-width: 100%;
+  }
+}
+
+/* Réduction animation si préférences OS */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+
+
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14,25,49,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.loader-overlay.hidden {
+  display: none;
+}
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-left-color: #d4af37;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+/* Logout Modal */
+/* Style modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+  z-index: 9999;
+}
+
+.modal.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: scaleIn 0.3s ease;
+}
+
+.modal-content h3 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.modal-content p {
+  margin-bottom: 20px;
+  color: #555;
+  font-size: 1rem;
+}
+
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.btn-cancel,
+.btn-confirm {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.btn-cancel {
+  background: #ddd;
+  color: #333;
+}
+
+.btn-cancel:hover {
+  background: #bbb;
+}
+
+.btn-confirm {
+  background: #e63946;
+  color: #fff;
+}
+
+.btn-confirm:hover {
+  background: #c71c30;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

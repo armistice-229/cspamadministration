@@ -1,0 +1,300 @@
+/* =========================================================
+  	CSPAM – Dashboard.css
+========================================================= */
+
+
+
+/* =========================
+   	Imports
+========================= */
+@import url("../01_general/reset.css");
+@import url("./base.css");
+@import url("../01_general/header.css");
+@import url("../01_general/footer.css");
+
+
+/* =========================
+   Progress Bar
+========================= */
+.progress-section {
+	width: 100%; max-width: var(--maxw);
+	margin: 1.5rem auto; padding: 0 1rem;
+}
+.progress-bar {
+	width: 100%; padding: .4rem;
+	background: linear-gradient(180deg, var(--panel), var(--panel-2));
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow);
+}
+.progress-bar-container {
+	height: 20px; border-radius: inherit; overflow: hidden; position: relative;
+	background: repeating-linear-gradient(45deg, rgba(255,255,255,.015) 0 10px, rgba(255,255,255,.03) 10px 20px);
+}
+.progress-wrapper { position: relative; height: 100%; }
+.progress {
+	height: 100%; width: 0%;
+	background: linear-gradient(90deg,
+		var(--accent) 0%,
+		#ffd66b 35%,
+		rgba(232,238,248,.35) 50%,
+		#ffd66b 65%,
+		var(--accent) 100%);
+	background-size: 200% 100%;
+	animation: progress-shine 4.5s linear infinite;
+	box-shadow: 0 0 10px rgba(212,175,55,.35);
+	border-radius: inherit;
+	transition: width .8s ease-in-out;
+}
+@keyframes progress-shine {
+	0% { background-position: 200% 0; }
+	100% { background-position: -200% 0; }
+}
+.progress-label {
+	font-family: "Poppins", sans-serif;
+	position: absolute; right: 8px; top: 50%;
+	transform: translateY(-50%);
+	font-size: .75rem; font-weight: 600; color: var(--light);
+	pointer-events: none;
+}
+
+
+/* =========================
+   Cards & Grids
+========================= */
+.dashboard-main { padding-block: var(--space-6); }
+
+.grid { display: grid; gap: var(--space-4); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+.card {
+	position: relative; overflow: hidden;
+	background: linear-gradient(180deg, var(--panel), var(--panel-2));
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow);
+}
+.card-header { padding: var(--space-4) var(--space-4) var(--space-2); }
+.card-title {
+	margin: 0;
+	font-family: "Poppins", sans-serif;
+	font-weight: 700; letter-spacing: .4px;
+	font-size: clamp(1rem, .7vw + .9rem, 1.15rem);
+}
+.card-body { padding: 0 var(--space-4) var(--space-4); }
+
+/* Small stats cards */
+.small-card .amount {
+	margin: 0;
+	font-size: clamp(1.3rem, 1.5vw + 1rem, 1.9rem);
+	font-weight: 800; letter-spacing: .5px;
+}
+.small-card .unit {
+	margin-left: .35rem;
+	color: var(--muted); font-weight: 600; font-size: .95rem;
+}
+.with-indicator { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.indicator { display: inline-flex; align-items: center; justify-content: center; gap: .35rem; }
+.indicator.up { color: #45d19f; }
+.indicator.down { color: #ff7b7b; }
+.indicator i { font-size: 1rem; }
+
+/* Large cards (charts & lists) */
+.large-card .chart-placeholder {
+	height: clamp(260px, 34vh, 360px);
+	display: grid; place-items: center;
+	color: var(--muted);
+	border: 1px dashed rgba(255,255,255,.18);
+	border-radius: 10px;
+	background: repeating-linear-gradient(45deg, rgba(255,255,255,.02) 0 10px, rgba(255,255,255,.04) 10px 20px);
+}
+
+/* Class list */
+.class-list {
+	list-style: none; margin: 0; padding: 0;
+	display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem 1.25rem;
+}
+.class-list li {
+	display: flex; align-items: center; justify-content: space-between;
+	padding: .7rem .9rem; border-radius: 10px;
+	background: #0e1931; border: 1px solid var(--line);
+}
+.class-list .class { font-weight: 700; letter-spacing: .3px; }
+.class-list .count { color: var(--accent); font-weight: 800; }
+.class-list .dot { opacity: .35; margin-inline: .6rem; }
+
+
+@media (max-width: 720px) {
+	.grid-3 { grid-template-columns: 1fr; }
+	.class-list { grid-template-columns: 1fr; }
+}
+
+
+
+/* =========================
+   Motion & Subtle Effects
+========================= */
+.card::after {
+	content: "";
+	position: absolute; inset: 0; pointer-events: none;
+	background:
+		radial-gradient(600px 200px at -10% -20%, rgba(212,175,55,.08), transparent 40%),
+		radial-gradient(800px 300px at 110% -10%, rgba(0,74,173,.09), transparent 45%);
+}
+
+/* Réduction animation si préférences OS */
+@media (prefers-reduced-motion: reduce) {
+	* { animation: none !important; transition: none !important; }
+}
+
+
+/* Overlay plein écran */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(14, 25, 49, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Masqué par défaut */
+.hidden {
+  display: none;
+}
+
+/* Animation spinner */
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #d4af37;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* Notifications (toasts) */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: -300px;
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #fff;
+  opacity: 0.95;
+  transition: right 0.5s ease, opacity 0.5s ease;
+  z-index: 1000;
+}
+.toast.visible {
+  right: 20px;
+}
+.toast-info {
+  background: #3498db;
+}
+.toast-success {
+  background: #2ecc71;
+}
+.toast-error {
+  background: #e74c3c;
+}
+
+
+
+/* Logout Modal */
+/* Style modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+  z-index: 9999;
+}
+
+.modal.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: scaleIn 0.3s ease;
+}
+
+.modal-content h3 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.modal-content p {
+  margin-bottom: 20px;
+  color: #555;
+  font-size: 1rem;
+}
+
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.btn-cancel,
+.btn-confirm {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.btn-cancel {
+  background: #ddd;
+  color: #333;
+}
+
+.btn-cancel:hover {
+  background: #bbb;
+}
+
+.btn-confirm {
+  background: #e63946;
+  color: #fff;
+}
+
+.btn-confirm:hover {
+  background: #c71c30;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

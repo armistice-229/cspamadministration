@@ -1,0 +1,318 @@
+/* ===========================
+   🌐 IMPORTS
+=========================== */
+@import url("../01_general/reset.css");
+@import url("./base.css");
+
+/* ===========================
+   🌟 PAGE LOGIN
+=========================== */
+.login-page {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100dvh;
+	width: 100%;
+	background: url("../../assets/images/hero-bg.png") no-repeat center/cover;
+	position: relative;
+	overflow: hidden;
+}
+
+.login-page::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 74, 173, 0.55); /* Overlay bleu semi-transparent */
+	z-index: 0;
+}
+
+/* ===========================
+   🏫 HEADER
+=========================== */
+.login-header {
+	position: absolute;
+	top: 40px;
+	left: 50%;
+	transform: translateX(-50%);
+	text-align: center;
+	color: var(--light);
+	z-index: 2;
+}
+
+.login-header h1 {
+	font-size: 1.9rem;
+	letter-spacing: 1px;
+	color: var(--light);
+	text-transform: uppercase;
+	font-weight: 700;
+    font-family: 'Marcellus', serif;
+}
+
+/* ===========================
+   📦 CONTENEUR FORMULAIRE
+=========================== */
+.login-container {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	padding: 1.5rem;
+}
+
+/* Carte formulaire */
+.login-form {
+	background: var(--light);
+	width: 100%;
+	max-width: 420px;
+	padding: 2.5rem 2rem;
+	border-radius: var(--radius);
+	box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+	animation: fadeInUp 0.8s ease;
+}
+
+/* ===========================
+   ✍️ CHAMPS FORMULAIRE
+=========================== */
+.form-group {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.form-group label {
+	font-weight: 500;
+	font-size: 0.95rem;
+	color: var(--text-dark);
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.form-group i {
+	color: var(--primary);
+}
+
+.form-group input {
+	padding: 12px 14px;
+	border: 1px solid #ccc;
+	border-radius: var(--radius);
+	font-size: 1rem;
+	outline: none;
+	transition: var(--transition);
+}
+
+.form-group input:focus {
+	border-color: var(--primary);
+	box-shadow: 0 0 6px rgba(0, 74, 173, 0.35);
+}
+
+/* ===========================
+   🔘 BOUTONS
+=========================== */
+.btn-login {
+	background: var(--primary);
+	color: var(--light);
+	font-weight: 600;
+	font-size: 1.1rem;
+	padding: 12px;
+	border: none;
+	border-radius: var(--radius);
+	cursor: pointer;
+	transition: var(--transition);
+}
+
+.btn-login:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+}
+
+.btn-retour {
+	display: block;
+	text-align: center;
+	margin-top: 0.8rem;
+	color: var(--primary);
+	text-decoration: none;
+	font-size: 1rem;
+	font-weight: 500;
+	transition: var(--transition);
+}
+
+.btn-retour i {
+	margin-right: 6px;
+}
+
+.btn-retour:hover {
+	color: var(--accent);
+	text-decoration: underline;
+}
+
+/* ===========================
+   🎬 ANIMATIONS
+=========================== */
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(25px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* ===========================
+   📱 RESPONSIVE DESIGN
+=========================== */
+
+/* Tablette jusqu’à 768px */
+@media (max-width: 768px) {
+	.login-header {
+		top: 20px;
+		padding: 0 1rem;
+	}
+	.login-header h1 {
+		font-size: 1.6rem;
+	}
+	.login-container {
+		padding: 1rem;
+	}
+	.login-form {
+		max-width: 90%; padding: 2rem 1.5rem;
+	}
+	.form-group input {
+		font-size: 0.95rem; padding: 10px 12px;
+	}
+	.btn-login {
+		font-size: 1rem; padding: 10px;
+	}
+}
+
+/* Mobile jusqu’à 480px */
+@media (max-width: 480px) {
+	.login-header {
+		top: 50px;
+		padding: 0 1rem;
+	}
+	.login-header h1 {
+		font-size: 1.3rem;
+	}
+	.login-form {
+		padding: 1.5rem 1rem; gap: 1rem;
+	}
+	.form-group label {
+		font-size: 0.85rem;
+	}
+	.form-group input {
+		font-size: 0.9rem;
+		padding: 10px;
+	}
+	.btn-login {
+		font-size: 0.95rem;
+		padding: 10px;
+	}
+	.btn-retour {
+		font-size: 0.9rem;
+	}
+}
+
+/* Très petit mobile jusqu’à 360px */
+@media (max-width: 360px) {
+	.login-header h1 {
+		font-size: 1.1rem;
+	}
+	.login-form {
+		max-width: 95%;
+		padding: 1rem;
+	}
+	.btn-login {
+		font-size: 0.9rem;
+		padding: 8px;
+	}
+	.btn-retour {
+		font-size: 0.85rem;
+	}
+}
+
+/* ===========================
+   ACCESSIBILITÉ
+=========================== */
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0,0,0,0);
+	border: 0;
+}
+
+
+/* Spinner sur le bouton */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #fff;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 0.8s linear infinite;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+/* Notifications (toasts) */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: -300px;
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #fff;
+  opacity: 0.95;
+  transition: right 0.5s ease, opacity 0.5s ease;
+  z-index: 1000;
+}
+.toast.visible {
+  right: 20px;
+}
+.toast-info {
+  background: #3498db;
+}
+.toast-success {
+  background: #2ecc71;
+}
+.toast-error {
+  background: #e74c3c;
+}
+
+
+
+/* CSS Pour EYE ICON su le mot de passe */
+.password-wrapper {
+  position: relative;
+}
+.password-wrapper input {
+  width: 100%;
+  padding-right: 35px; /* espace pour l'icône */
+}
+.password-wrapper i {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #7f8c8d;
+}
+.password-wrapper i:hover {
+  color: #2c3e50;
+}
+

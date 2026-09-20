@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<!-- =========================
+			META & CONFIGURATION
+		========================== -->
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>CSPAM | Connexion Administrateur</title>
+		<meta name="description" content="Connexion à l'espace administrateur du Complexe Scolaire Privé Arche du Millénium (CSPAM).">
+		<meta name="keywords" content="CSPAM, Connexion, Administration, Espace admin, Gestion scolaire">
+		<meta name="author" content="CSPAM">
+
+		<!-- Google Fonts : Titres -->
+		<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Prata&family=Marcellus&display=swap" rel="stylesheet">
+		
+		<!-- Google Fonts : Texte courant -->
+		<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=Lato:wght@400;500&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+
+		<!-- Icônes Font Awesome -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+		<!-- Feuille de style principale -->
+		<link rel="stylesheet" href="../styles/03_login/login.css">
+
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="../assets/icon/favicon.ico" type="image/x-icon">
+	</head>
+	<body>
+	
+		<!-- =========================
+			PAGE DE CONNEXION
+		========================== -->
+		<main class="login-page" role="main" aria-label="Page de connexion administrateur CSPAM">
+
+			<!-- ====== En-tête ====== -->
+			<header class="login-header">
+				<h1 id="login-title">CSPAM | Connexion Administrateur</h1>
+			</header>
+
+			<!-- ====== Conteneur principal ====== -->
+			<section class="login-container" aria-labelledby="login-title">
+				
+				<!-- ====== Formulaire de connexion ====== -->
+				<form class="login-form" action="./dashbord.html" method="POST" aria-describedby="form-description">
+				
+					<p id="form-description" class="visually-hidden">
+						Formulaire de connexion pour accéder à l'espace administrateur du CSPAM.
+					</p>
+
+					<!-- Champ Identifiant -->
+					<div class="form-group">
+						<label for="username">
+							<i class="fa-solid fa-user" aria-hidden="true"></i> Identifiant
+						</label>
+						<input type="text" id="username" name="username" placeholder="Entrez votre identifiant" autocomplete="username" required aria-required="true">
+					</div>
+
+					<!-- Champ Mot de passe -->
+					<div class="form-group">
+						<label for="password">
+							<i class="fa-solid fa-lock" aria-hidden="true"></i> Mot de passe
+						</label>
+						<div class="password-wrapper">
+							<input type="password" id="password" required placeholder="******">
+							<i id="togglePassword" class="fa-solid fa-eye"></i>
+						</div>
+					</div>
+
+					<!-- Bouton Connexion -->
+					<button type="submit" class="btn-login" aria-label="Se connecter à l'espace administrateur"> Se connecter </button>
+
+					<!-- Lien retour vers la page d’accueil -->
+					<a href="../index.html" class="btn-retour" aria-label="Retourner à la page d'accueil">
+						<i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Retour à l'accueil
+					</a>
+				</form>
+			</section>
+		</main>
+
+		<!-- =========================
+			SCRIPT JS
+		========================== -->
+		<script src="../scripts/login.js"></script>
+	</body>
+</html>

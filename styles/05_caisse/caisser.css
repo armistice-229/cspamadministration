@@ -1,0 +1,190 @@
+    /* ---------- Global ---------- */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 26px;
+      color: #f0f6fc;
+    }
+
+    /* ---------- Filtres ---------- */
+    .filter-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+      background: #161b22;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+    .filter-box select, .filter-box input {
+      flex: 1;
+      min-width: 150px;
+      padding: 10px;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      background: #0d1117;
+      color: #e6edf3;
+      outline: none;
+    }
+    .filter-box input::placeholder { color: #8b949e; }
+    .btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 14px;
+    }
+    .btn-primary { background: #238636; color: #fff; }
+    .btn-primary:hover { background: #2ea043; }
+    .btn-danger { background: #d73a49; color: #fff; }
+    .btn-danger:hover { background: #f85149; }
+    .btn-secondary { background: #30363d; color: #fff; }
+    .btn-secondary:hover { background: #484f58; }
+
+    /* ---------- Tableau ---------- */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #161b22;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #30363d;
+      text-align: left;
+      vertical-align: middle;
+    }
+    th {
+      background: #21262d;
+      color: #c9d1d9;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    tr:hover td { background: #1c2128; }
+
+    /* ---------- Badges ---------- */
+    .badge {
+      padding: 5px 10px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 500;
+      display: inline-block;
+    }
+    .badge-entree { background: #238636; color: #fff; }
+    .badge-sortie { background: #d73a49; color: #fff; }
+    .badge-na { background: #6c757d; color: #fff; font-size: 12px; }
+
+    /* ---------- Pagination ---------- */
+    .pagination {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    /* ---------- Overlay de chargement ---------- */
+    #loadingOverlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+    .spinner {
+      border: 6px solid #30363d;
+      border-top: 6px solid #238636;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* ---------- Modal ---------- */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 3000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      overflow: auto;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-content {
+      background: #161b22;
+      padding: 20px;
+      border-radius: 8px;
+      width: 520px;
+      max-width: 100%;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+    .modal-header {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #f0f6fc;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .modal-content label { display:block; margin-top:10px; font-size:14px; color:#c9d1d9; }
+    .modal-content input, .modal-content select, .modal-content textarea {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+      background: #0d1117;
+      color: #e6edf3;
+      margin-top: 6px;
+      box-sizing: border-box;
+    }
+    .modal-content textarea { min-height: 80px; resize: vertical; }
+
+    .modal-actions { margin-top: 16px; display:flex; justify-content:flex-end; gap:10px; }
+    .note { font-size: 13px; color:#8b949e; margin-top:6px; }
+  
+  
+/* Notifications (toasts) */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: -300px;
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #fff;
+  opacity: 0.95;
+  transition: right 0.5s ease, opacity 0.5s ease;
+  z-index: 1000;
+}
+.toast.visible {
+  right: 20px;
+}
+.toast-info {
+  background: #3498db;
+}
+.toast-success {
+  background: #2ecc71;
+}
+.toast-error {
+  background: #e74c3c;
+}
+.toast-warning {
+  background: #f39c12;
+}

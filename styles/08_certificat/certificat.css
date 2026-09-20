@@ -1,0 +1,453 @@
+/* =====================================================
+   CSPAM | Certificat de scolarité
+===================================================== */
+
+
+/* =========================
+   Imports
+========================= */
+@import url("../01_general/reset.css");
+@import url("./base.css");
+@import url("../01_general/header.css");
+@import url("../01_general/footer.css");
+
+
+/* 2) Grille du formulaire ------------------------------------------------- */
+.certif-form { /* bloc global */
+  display: block;
+}
+
+.form-grid {
+  display: grid;
+  gap: clamp(1rem, 1.2vw, var(--space-6));
+}
+
+@media (min-width: 992px) {
+  .form-grid {
+    grid-template-columns: 1.1fr .9fr; /* légère asymétrie plus premium */
+    align-items: stretch;
+  }
+}
+
+/* 3) Cartes (gauche/droite) ---------------------------------------------- */
+.form-card {
+  position: relative;
+  background: linear-gradient(180deg, rgba(15,26,48,.86), rgba(12,22,41,.92));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: clamp(1rem, 1.2rem + .6vw, var(--space-6));
+  display: flex;
+  flex-direction: column;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  backdrop-filter: blur(6px);
+  isolation: isolate;
+}
+.form-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(0,0,0,.5);
+  border-color: rgba(0,74,173,.35);
+}
+.form-card h3 {
+  margin: 0 0 var(--space-5);
+  font-family: "Poppins", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: .2px;
+}
+
+/* halo décoratif subtil */
+.form-card::after {
+  content: "";
+  position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+  background:
+    radial-gradient(600px 200px at -10% -20%, var(--gold-veil), transparent 40%),
+    radial-gradient(800px 300px at 110% -10%, var(--blue-veil), transparent 45%);
+}
+
+/* 4) Lignes / champs ------------------------------------------------------ */
+.form-row { display: grid; gap: .55rem; margin-bottom: var(--space-4); }
+.form-row label { font-weight: 500; color: var(--muted); }
+
+.form-row :where(input, select, textarea) {
+  padding: .9rem 1rem;
+  background: #0e1931;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 1rem;
+  transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+}
+
+.form-row :where(input, select, textarea)::placeholder { color: #9aa7bf; opacity: .8; }
+
+.form-row :where(input, select, textarea):focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: var(--ring);
+  background: #0f1e3b;
+}
+
+/* zones multi-colonnes existantes dans le HTML */
+.input-inline,
+.form-inline {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .input-inline,
+  .form-inline { grid-template-columns: 1fr 1fr; }
+}
+
+/* affiner les input type=number et date */
+input[type="number"] {
+  -moz-appearance: textfield; appearance: textfield;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+input[type="date"] {
+  padding-inline-end: 2.5rem; /* place pour l'icône système */
+}
+
+textarea { min-height: 120px; resize: vertical; }
+
+/* fieldset / legend élégants */
+fieldset {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: clamp(.8rem, .7rem + .4vw, var(--space-5));
+  margin: var(--space-4) 0 var(--space-5);
+  background: linear-gradient(180deg, rgba(255,255,255,.02), transparent);
+}
+legend {
+  font-size: 1rem; font-weight: 600; font-family: "Poppins", sans-serif; color: var(--accent);
+  padding: 0 var(--space-2);
+}
+
+/* ===== Select personnalisé ===== */
+.form-row select {
+  position: relative;
+  padding-right: 2.5rem; /* espace pour la flèche */
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23d4af37' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  background-size: 1rem;
+  transition: transform 0.18s ease;
+}
+
+.form-row select:focus {
+  transform: scale(1.01);
+}
+
+/* Options du menu */
+.form-row select option {
+  background: #0e1931;
+  color: var(--text);
+  font-size: 0.95rem;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+}
+
+/* Hover & sélection élégante */
+.form-row select option:hover {
+  background: rgba(0, 74, 173, 0.25);
+  color: var(--light);
+}
+
+.form-row select option:checked {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* 5) Actions (boutons) ---------------------------------------------------- */
+.form-actions {
+  display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: auto;
+}
+
+.btn {
+  display: inline-flex; align-items: center; gap: .65rem;
+  padding: .9rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-family: "Poppins", sans-serif; font-weight: 600; font-size: 1rem;
+  cursor: pointer; border: 1px solid transparent;
+  transition: transform .2s ease, box-shadow .3s ease, border-color .3s ease, background .3s ease;
+  will-change: transform;
+}
+.btn i { font-size: .95rem; }
+
+.btn {
+  background: linear-gradient(135deg, #004aad, #0b6dff);
+  color: var(--light);
+  box-shadow: 0 10px 24px rgba(0,74,173,.35);
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(0,74,173,.45); }
+.btn:active { transform: translateY(0); box-shadow: 0 8px 18px rgba(0,74,173,.35); }
+.btn:focus-visible { outline: none; box-shadow: var(--ring), 0 10px 24px rgba(0,74,173,.35); }
+
+.btn.ghost {
+  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+  color: var(--muted);
+  border-color: var(--line);
+}
+.btn.ghost:hover { color: var(--light); border-color: rgba(0,74,173,.5); box-shadow: 0 10px 22px rgba(0,0,0,.35); }
+
+/* 6) Historique (tableau) ------------------------------------------------- */
+.history-card {
+  margin-top: var(--space-8);
+  padding: clamp(1rem, 1.2rem + .6vw, var(--space-6));
+  background: linear-gradient(180deg, rgba(15,26,48,.86), rgba(12,22,41,.92));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(6px);
+  position: relative;
+}
+.history-card::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+  background:
+    radial-gradient(600px 200px at -10% -20%, var(--gold-veil), transparent 40%),
+    radial-gradient(800px 300px at 110% -10%, var(--blue-veil), transparent 45%);
+}
+
+.history-card h3 {
+  font-family: "Poppins", sans-serif; font-size: 1.1rem; margin: 0 0 var(--space-5);
+  color: var(--muted); letter-spacing: .2px;
+}
+
+/* conteneur scrollable (déjà en inline dans le HTML) – on formalise */
+.history-card > .table-scroller,
+.history-card > div[style*="overflow:auto"] { /* capture ton wrapper actuel */
+  overflow: auto; border-radius: var(--radius-sm);
+  outline: 1px solid rgba(255,255,255,.04);
+  outline-offset: 0;
+}
+
+.history-table {
+  width: 100%; border-collapse: separate; border-spacing: 0; font-size: .95rem;
+  min-width: 640px; /* lisible même en petit écran via scroll */
+}
+
+.history-table thead th {
+  position: sticky; top: 0; z-index: 1;
+  background: #0e1931; color: var(--accent);
+  text-align: left; font-weight: 600;
+  padding: 1rem 1.1rem; border-bottom: 1px solid var(--line);
+}
+
+.history-table td {
+  padding: .95rem 1.1rem; border-bottom: 1px solid var(--line);
+}
+
+.history-table tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+.history-table tr:hover td { background: rgba(255,255,255,.05); }
+
+/* lignes en survol: léger soulignement doré */
+.history-table tr:hover {
+  box-shadow: inset 0 -1px 0 rgba(212,175,55,.25);
+}
+
+/* 7) Footer (espacement conservé) ---------------------------------------- */
+.dashboard-footer {
+  margin-top: var(--space-8);
+  text-align: center; font-size: .9rem; color: var(--muted);
+}
+
+/* 8) Micro-interactions & accessibilité ---------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+
+/* états d'erreur/succès – utilisables par JS si besoin */
+.is-invalid { border-color: #d55; box-shadow: 0 0 0 3px rgba(221,85,85,.25); }
+.is-valid   { border-color: #2dbb77; box-shadow: 0 0 0 3px rgba(45,187,119,.25); }
+
+/* 9) Petites retouches globales (cohérence dash) ------------------------- */
+/* On reste focalisé sur le main, mais on nettoie deux détails utiles  */
+.dashboard-main a { color: #9cc3ff; text-decoration: none; }
+.dashboard-main a:hover { text-decoration: underline; }
+
+/* 10) Utilitaires optionnels --------------------------------------------- */
+.u-muted { color: var(--muted); }
+.u-center { display: grid; place-items: center; }
+
+ 
+/* =========================
+   Suggestions (autocomplétion)
+========================= */
+/* ===== Suggestions pour l'input élève ===== */
+.autocomplete {
+  position: relative;
+}
+
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: #0e1931;
+  border: 1px solid rgba(0, 74, 173, 0.25);
+  max-height: 200px;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.suggestions li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.suggestions li:hover {
+  background: rgba(0, 74, 173, 0.25);
+}
+
+/* Notifications (toasts) */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: -300px;
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #fff;
+  opacity: 0.95;
+  transition: right 0.5s ease, opacity 0.5s ease;
+  z-index: 1000;
+}
+.toast.visible {
+  right: 20px;
+}
+.toast-info {
+  background: #3498db;
+}
+.toast-success {
+  background: #2ecc71;
+}
+.toast-error {
+  background: #e74c3c;
+}
+.toast-warning {
+  background: #f39c12;
+}
+
+
+
+/* Loader (overlay) */
+
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14,25,49,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.loader-overlay.hidden {
+  display: none;
+}
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-left-color: #d4af37;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* Logout Modal */
+/* Style modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+  z-index: 9999;
+}
+
+.modal.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: scaleIn 0.3s ease;
+}
+
+.modal-content h3 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.modal-content p {
+  margin-bottom: 20px;
+  color: #555;
+  font-size: 1rem;
+}
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.btn-cancel,
+.btn-confirm {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.btn-cancel {
+  background: #ddd;
+  color: #333;
+}
+
+.btn-cancel:hover {
+  background: #bbb;
+}
+
+.btn-confirm {
+  background: #e63946;
+  color: #fff;
+}
+
+.btn-confirm:hover {
+  background: #c71c30;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

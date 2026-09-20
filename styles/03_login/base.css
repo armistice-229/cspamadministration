@@ -1,0 +1,76 @@
+/* ===========================
+   BASE.CSS
+=========================== */
+
+:root {
+    --primary: #004aad;      /* Bleu profond institutionnel */
+    --light: #ffffff;        /* Blanc pur */
+    --accent: #d4af37;       /* Or doré élégant */
+    --text-dark: #1a1a1a;    /* Gris foncé (texte principal) */
+    --light: #ffffff;   /* Gris clair (contraste sur fond sombre) */
+
+    --radius: 14px;          /* Rayon arrondi des cartes & inputs */
+    --shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Ombres douces */
+    --transition: all 0.3s ease-in-out; /* Animation fluide */
+}
+
+
+body {
+    font-size: 1rem;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    font-weight: 400;
+    font-family: 'Spectral', serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+p {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    font-weight: 400;
+    color: #555;
+}
+
+a {
+    transition: all 0.3s ease;
+}
+
+.btn-connexion,
+.btn-cta {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-connexion {
+    background: var(--primary);
+    color: var(--text-light);
+}
+
+.btn-connexion:hover {
+    background: var(--accent);
+    color: var(--text-dark);
+}
+
+.btn-cta {
+    background: var(--accent);
+    color: var(--text-dark);
+}
+
+.btn-cta:hover {
+    background: var(--primary);
+    color: var(--text-light);
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+    font-family: 'Marcellus', serif;
+}
+
