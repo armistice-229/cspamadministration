@@ -102,6 +102,19 @@
       margin-left: .4rem;
     }
 
+    .btn-transfer {
+      background: transparent;
+      color: #2ecc71;
+      border: 1px solid rgba(46, 204, 113, 0.15);
+      margin-left: .4rem;
+    }
+
+    /* Utilitaire générique (différent de .modal.hidden qui gère l'affichage des modals) */
+    #bulkTransferForm.hidden,
+    #bulkTransferResult.hidden {
+      display: none;
+    }
+
     /* Modal (utilise déjà les classes .modal/.modal.hidden dans caisse.css) */
     .modal .form {
       gap: .6rem;
@@ -247,6 +260,10 @@
             </select>
           </div>
 
+          <button type="button" id="btnTransfererClasse" class="btn-secondary" style="align-self:flex-end;">
+            Transférer toute la classe →
+          </button>
+
           <div style="margin-left:auto; color:var(--muted); font-size:.95rem;">
             <span id="countInfo"></span>
           </div>
@@ -358,6 +375,88 @@
           <button type="submit" id="saveEdit" class="btn-primary">Enregistrer</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- Modal transfert vers une nouvelle année -->
+  <div id="transferModal" class="modal hidden" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+      <h3>Transférer l'élève</h3>
+      <p id="transferInfo" style="color:var(--muted); margin:4px 0 12px;"></p>
+      <form id="transferForm" class="form">
+        <input type="hidden" id="transferId">
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="transferClasse">Nouvelle classe <span style="color:red">*</span></label>
+            <select id="transferClasse" required>
+              <option value="">-- Sélectionner la classe --</option>
+              <option value="Maternelle">Maternelle</option>
+              <option value="CI">CI</option>
+              <option value="CP">CP</option>
+              <option value="CE1">CE1</option>
+              <option value="CE2">CE2</option>
+              <option value="CM1">CM1</option>
+              <option value="CM2">CM2</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="transferAnnee">Nouvelle année scolaire <span style="color:red">*</span></label>
+            <input type="text" id="transferAnnee" placeholder="Ex: 2026-2027" required>
+          </div>
+        </div>
+
+        <div class="modal-actions" style="margin-top:12px;">
+          <button type="button" id="cancelTransfer" class="btn-secondary">Annuler</button>
+          <button type="submit" id="saveTransfer" class="btn-primary">Transférer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal transfert de toute une classe -->
+  <div id="bulkTransferModal" class="modal hidden" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+      <h3>Transférer toute la classe</h3>
+      <p id="bulkTransferInfo" style="color:var(--muted); margin:4px 0 12px;"></p>
+
+      <form id="bulkTransferForm" class="form">
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="bulkTransferClasse">Nouvelle classe <span style="color:red">*</span></label>
+            <select id="bulkTransferClasse" required>
+              <option value="">-- Sélectionner la classe --</option>
+              <option value="Maternelle">Maternelle</option>
+              <option value="CI">CI</option>
+              <option value="CP">CP</option>
+              <option value="CE1">CE1</option>
+              <option value="CE2">CE2</option>
+              <option value="CM1">CM1</option>
+              <option value="CM2">CM2</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="bulkTransferAnnee">Nouvelle année scolaire <span style="color:red">*</span></label>
+            <input type="text" id="bulkTransferAnnee" placeholder="Ex: 2026-2027" required>
+          </div>
+        </div>
+
+        <div class="modal-actions" style="margin-top:12px;">
+          <button type="button" id="cancelBulkTransfer" class="btn-secondary">Annuler</button>
+          <button type="submit" id="saveBulkTransfer" class="btn-primary">Transférer la classe</button>
+        </div>
+      </form>
+
+      <!-- Résultat affiché après l'opération -->
+      <div id="bulkTransferResult" class="hidden" style="margin-top:14px; border-top:1px solid rgba(255,255,255,.08); padding-top:12px;">
+        <p id="bulkTransferSummary" style="font-weight:600;"></p>
+        <ul id="bulkTransferErreurs" style="color:#e74c3c; font-size:.9rem; margin-top:6px;"></ul>
+        <div class="modal-actions" style="margin-top:10px;">
+          <button type="button" id="closeBulkTransferResult" class="btn-primary">Fermer</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -489,7 +588,8 @@
             <td>${escapeHtml(e.anneeScolaire || "-")}</td>
             <td>
               <button class="action-btn btn-edit" onclick="openEditModal('${e._id}')">Modifier</button>
-              <button class="action-btn btn-delete" ">Supprimer</button>
+              <button class="action-btn btn-transfer" onclick="openTransferModal('${e._id}', '${escapeHtml(e.nom)} ${escapeHtml(e.prenom)}', '${escapeHtml(e.classe)}', '${escapeHtml(e.anneeScolaire)}')">Transférer</button>
+              <button class="action-btn btn-delete" onclick="supprimerEleve('${e._id}')">Supprimer</button>
             </td>
           </tr>
         `;
@@ -609,6 +709,179 @@
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
     }
+
+    /* ====== Transfert vers une nouvelle année (modal) ====== */
+    window.openTransferModal = async function (id, nomComplet, classeActuelle, anneeActuelle) {
+      document.getElementById("transferId").value = id;
+      document.getElementById("transferInfo").textContent =
+        `${nomComplet} — actuellement en ${classeActuelle} (${anneeActuelle})`;
+      document.getElementById("transferClasse").value = "";
+
+      // Pré-remplit avec l'année scolaire active par défaut (modifiable si besoin)
+      try {
+        document.getElementById("transferAnnee").value = await getAnneeActive();
+      } catch (err) {
+        document.getElementById("transferAnnee").value = "";
+      }
+
+      const modal = document.getElementById("transferModal");
+      modal.classList.remove("hidden");
+      modal.setAttribute("aria-hidden", "false");
+    };
+
+    document.getElementById("cancelTransfer").addEventListener("click", closeTransferModal);
+    document.getElementById("transferModal").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) closeTransferModal();
+    });
+
+    function closeTransferModal() {
+      const modal = document.getElementById("transferModal");
+      modal.classList.add("hidden");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    document.getElementById("transferForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const id = document.getElementById("transferId").value;
+      const nouvelleClasse = document.getElementById("transferClasse").value;
+      const nouvelleAnneeScolaire = document.getElementById("transferAnnee").value.trim();
+
+      if (!nouvelleClasse || !nouvelleAnneeScolaire) {
+        showToast("Remplir la classe et l'année", "warning");
+        return;
+      }
+      if (!/^\d{4}-\d{4}$/.test(nouvelleAnneeScolaire)) {
+        showToast("Format d'année invalide (ex: 2026-2027)", "error");
+        return;
+      }
+
+      const btn = document.getElementById("saveTransfer");
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Transfert...';
+
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/eleve/${id}/transferer`, {
+          method: "POST",
+          headers: protectHeaders(),
+          body: JSON.stringify({ nouvelleClasse, nouvelleAnneeScolaire })
+        });
+        const json = await res.json();
+        if (res.ok) {
+          showToast(json.message || "Élève transféré ✅", "success");
+          closeTransferModal();
+          filtreClasse.dispatchEvent(new Event("change"));
+        } else {
+          showToast(json.message || "Erreur lors du transfert", "error");
+        }
+      } catch (err) {
+        console.error(err);
+        showToast("Erreur serveur ❌", "error");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Transférer";
+      }
+    });
+
+    /* ====== Transfert de toute une classe (modal) ====== */
+    document.getElementById("btnTransfererClasse").addEventListener("click", async () => {
+      const classeSource = filtreClasse.value;
+      if (!classeSource) {
+        showToast("Sélectionnez d'abord une classe à transférer", "warning");
+        return;
+      }
+      // "Année active" (valeur vide dans le select) -> on résout la vraie valeur
+      const anneeSource = filtreAnnee.value || (await getAnneeActive());
+
+      document.getElementById("bulkTransferModal").dataset.classeSource = classeSource;
+      document.getElementById("bulkTransferModal").dataset.anneeSource = anneeSource;
+      document.getElementById("bulkTransferInfo").textContent =
+        `${countInfo.textContent || ""} en ${classeSource} (${anneeSource}) seront transférés vers :`;
+      document.getElementById("bulkTransferClasse").value = "";
+      document.getElementById("bulkTransferAnnee").value = await getAnneeActive();
+
+      document.getElementById("bulkTransferForm").classList.remove("hidden");
+      document.getElementById("bulkTransferResult").classList.add("hidden");
+
+      const modal = document.getElementById("bulkTransferModal");
+      modal.classList.remove("hidden");
+      modal.setAttribute("aria-hidden", "false");
+    });
+
+    document.getElementById("cancelBulkTransfer").addEventListener("click", closeBulkTransferModal);
+    document.getElementById("closeBulkTransferResult").addEventListener("click", () => {
+      closeBulkTransferModal();
+      filtreClasse.dispatchEvent(new Event("change")); // rafraîchir la liste affichée
+    });
+    document.getElementById("bulkTransferModal").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) closeBulkTransferModal();
+    });
+
+    function closeBulkTransferModal() {
+      const modal = document.getElementById("bulkTransferModal");
+      modal.classList.add("hidden");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    document.getElementById("bulkTransferForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const modal = document.getElementById("bulkTransferModal");
+      const classeSource = modal.dataset.classeSource;
+      const anneeSource = modal.dataset.anneeSource;
+      const classeCible = document.getElementById("bulkTransferClasse").value;
+      const anneeCible = document.getElementById("bulkTransferAnnee").value.trim();
+
+      if (!classeCible || !anneeCible) {
+        showToast("Remplir la classe et l'année cible", "warning");
+        return;
+      }
+      if (!/^\d{4}-\d{4}$/.test(anneeCible)) {
+        showToast("Format d'année invalide (ex: 2026-2027)", "error");
+        return;
+      }
+      if (!confirm(`Confirmer le transfert de TOUS les élèves de ${classeSource} (${anneeSource}) vers ${classeCible} (${anneeCible}) ?`)) {
+        return;
+      }
+
+      const btn = document.getElementById("saveBulkTransfer");
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Transfert en cours...';
+
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/eleves/transferer-classe`, {
+          method: "POST",
+          headers: protectHeaders(),
+          body: JSON.stringify({ classeSource, anneeSource, classeCible, anneeCible })
+        });
+        const json = await res.json();
+
+        document.getElementById("bulkTransferForm").classList.add("hidden");
+        const resultBox = document.getElementById("bulkTransferResult");
+        resultBox.classList.remove("hidden");
+
+        if (res.ok) {
+          document.getElementById("bulkTransferSummary").textContent = json.message;
+          const listeErreurs = document.getElementById("bulkTransferErreurs");
+          listeErreurs.innerHTML = "";
+          if (json.erreurs && json.erreurs.length) {
+            json.erreurs.forEach(er => {
+              const li = document.createElement("li");
+              li.textContent = `${er.eleve} : ${er.raison}`;
+              listeErreurs.appendChild(li);
+            });
+          }
+          showToast("Transfert terminé ✅", "success");
+        } else {
+          document.getElementById("bulkTransferSummary").textContent = json.message || "Erreur lors du transfert.";
+          document.getElementById("bulkTransferErreurs").innerHTML = "";
+        }
+      } catch (err) {
+        console.error(err);
+        showToast("Erreur serveur ❌", "error");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Transférer la classe";
+      }
+    });
 
     /* ==== Initial behaviour: optional load first classe ==== */
     // Tu peux décommenter la ligne ci-dessous pour charger automatiquement la première vraie classe:
